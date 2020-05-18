@@ -10,3 +10,5 @@ star_choices=[
 class rate_form(forms.Form):
     q1 = forms.ChoiceField(choices=star_choices,widget=forms.RadioSelect)
     q2 = forms.ChoiceField(choices=star_choices,widget=forms.RadioSelect)
+
+#JASDASJDALSDLKASDKNALKSD
