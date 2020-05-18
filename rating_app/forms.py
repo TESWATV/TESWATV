@@ -1,14 +1,14 @@
 from django import forms
-star_choices=[
-    ('1' , '1' ),
-    ('2' , '2' ),
-    ('3' , '3' ),
-    ('4' , '4' ),
-    ('5' , '5' ),
-]
+from rating_app import models
 
-class rate_form(forms.Form):
-    q1 = forms.ChoiceField(choices=star_choices,widget=forms.RadioSelect)
-    q2 = forms.ChoiceField(choices=star_choices,widget=forms.RadioSelect)
+status_choices=(
+    (1,'Completed'),
+    (0,'Pending'),
+)
+class progress(forms.Form):
+    Status = forms.ChoiceField(choices=status_choices)
+    Department = forms.CharField()
 
-#JASDASJDALSDLKASDKNALKSD
+class details(forms.Form):
+    faculty_name = forms.CharField()
+    course_name = forms.CharField()

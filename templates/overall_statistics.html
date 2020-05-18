@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detailed Statistics</title>
+</head>
+<body>
+    {% csrf_token %}
+    Total no. of evaluations : {{ num1 }}<br>
+    Total no. of students participated : {{ num2 }}<br>
+    Total no. of teachers rated at least once : {{ num3 }}<br>
+    Total no. of courses rated at least once : {{ num4 }}<br>
+    Pending evaluations : {{ num5 }}<br>
+</body>
+</html>
