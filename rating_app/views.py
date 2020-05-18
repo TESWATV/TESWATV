@@ -76,3 +76,4 @@ def rate(request):
         return render(request,'rate.html',{'listt':listt})
 
 # Create your views here.
+# abcd
