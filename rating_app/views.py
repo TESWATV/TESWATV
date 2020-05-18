@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from rating_app.models import credited_courses_table,rating_table
 from . import forms
+#abcd
 
 def admin(request):
     template="admin.html"
