@@ -4,6 +4,10 @@ from rating_app import views
 from django.views.generic import TemplateView
 
 urlpatterns = [
+    path('accounts/', include('allauth.urls')),
+    path('', views.home, name='home'),
+    path('success/', views.success, name='success'),
+    path('rate/', views.rate, name='rate'),
     path('djangoadmin/', admin.site.urls),
     path('evaluation_progress/', views.evaluation_progress),
     path('details/', views.details),

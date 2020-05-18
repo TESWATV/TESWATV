@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+  <meta charset="utf-8">
+     <style media="screen">
+     body
+     {
+         margin: 0;
+         padding: 0;
+         background: #262626
+     }
+     .rating
+     {
+       position: relative;
+       top: 0%;
+       left:-0%;
+       transform: translate(0%,0%) /*rotateY(180deg)*/;
+       display: flex;
+       flex-direction:row-reverse;
+     }
+     .rating input
+     {
+       display: none;
+     }
+     .rating label
+     {
+       display: block;
+       cursor: pointer;
+       width : 20px;
+     }
+     .rating label:before
+     {
+       content: '\f005';
+       font-family: fontAwesome;
+       position: relative;
+       display: block;
+       font-size: 20px;
+       color:#101010;
+
+     }
+     .rating label:after
+     {
+       content:'\f005';
+       font-family: fontAwesome;
+       position: absolute;
+       display: block;
+       font-size: 20px;
+       color: #1f9cff;
+       top: 0;
+       opacity: 0;
+       transition: .5s;
+       text-shadow: 0 2px 5px rgba(0,0,0,.5);
+     }
+     .rating label:hover:after,
+     .rating label:hover ~ label:after,
+     .rating input:checked ~ label:after
+     {
+       opacity: 1;
+     }
+     </style>
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
+</head>
+
+<body>
+
+<div class="accordion" id="accordionExample">
+
+{% for l in listt %}
+
+
+  <div class="card bg-secondary text-white">
+    <div class="card-header" id= "{{ "heading"|add:l }}">
+      <h2 class="mb-0">
+        <button class="btn btn-light" type="button" data-toggle="collapse" data-target= {{ "#collapse"|add:l }} aria-expanded="false" aria-controls={{ "collapse"|add:l }}>
+          {{ l }}
+        </button>
+      </h2>
+    </div>
+
+
+    <div id={{ "collapse"|add:l }} class="collapse" aria-labelledby="{{ "heading"|add:l }}" data-parent="#accordionExample">
+      <div class="card-body">
+        ( 5 star - Strongly Agree ) <br> ( 1 star - Strongly Disagree ) <br><br>
+         {{ l }} <br><br>
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" value="{{ l }}" name="pair">
+        Question 1 <br>
+               <div class="d-flex justify-content-start">
+                <div class="rating">
+                  <input type="radio" name="star1" id="{{ "1star5"|add:l }}" value="5" required="True">
+                  <label for="{{ "1star5"|add:l }}"></label>
+                  <input type="radio" name="star1" id="{{ "1star4"|add:l }}" value="4">
+                  <label for="{{ "1star4"|add:l }}"></label>
+                  <input type="radio" name="star1" id="{{ "1star3"|add:l }}" value="3">
+                  <label for="{{ "1star3"|add:l }}"></label>
+                  <input type="radio" name="star1" id="{{ "1star2"|add:l }}" value="2">
+                  <label for="{{ "1star2"|add:l }}"></label>
+                  <input type="radio" name="star1" id="{{ "1star1"|add:l }}" value="1">
+                  <label for="{{ "1star1"|add:l }}"></label>
+                </div>
+              </div>
+              <br>
+
+              Question 2 <br>
+                     <div class="d-flex justify-content-start">
+                      <div class="rating">
+                        <input type="radio" name="star2" id="{{ "2star5"|add:l }}" value="5" required="True">
+                        <label for="{{ "2star5"|add:l }}"></label>
+                        <input type="radio" name="star2" id="{{ "2star4"|add:l }}" value="4">
+                        <label for="{{ "2star4"|add:l }}"></label>
+                        <input type="radio" name="star2" id="{{ "2star3"|add:l }}" value="3">
+                        <label for="{{ "2star3"|add:l }}"></label>
+                        <input type="radio" name="star2" id="{{ "2star2"|add:l }}" value="2">
+                        <label for="{{ "2star2"|add:l }}"></label>
+                        <input type="radio" name="star2" id="{{ "2star1"|add:l }}" value="1">
+                        <label for="{{ "2star1"|add:l }}"></label>
+                      </div>
+                    </div>
+                    <br>
+
+                    Question 3 <br>
+                           <div class="d-flex justify-content-start">
+                            <div class="rating">
+                              <input type="radio" name="star3" id="{{ "3star5"|add:l }}" value="5" required="True">
+                              <label for="{{ "3star5"|add:l }}"></label>
+                              <input type="radio" name="star3" id="{{ "3star4"|add:l }}" value="4">
+                              <label for="{{ "3star4"|add:l }}"></label>
+                              <input type="radio" name="star3" id="{{ "3star3"|add:l }}" value="3">
+                              <label for="{{ "3star3"|add:l }}"></label>
+                              <input type="radio" name="star3" id="{{ "3star2"|add:l }}" value="2">
+                              <label for="{{ "3star2"|add:l }}"></label>
+                              <input type="radio" name="star3" id="{{ "3star1"|add:l }}" value="1">
+                              <label for="{{ "3star1"|add:l }}"></label>
+                            </div>
+                          </div>
+                          <br>
+
+                          Question 4 <br>
+                                 <div class="d-flex justify-content-start">
+                                  <div class="rating">
+                                    <input type="radio" name="star4" id="{{ "4star5"|add:l }}" value="5" required="True">
+                                    <label for="{{ "4star5"|add:l }}"></label>
+                                    <input type="radio" name="star4" id="{{ "4star4"|add:l }}" value="4">
+                                    <label for="{{ "4star4"|add:l }}"></label>
+                                    <input type="radio" name="star4" id="{{ "4star3"|add:l }}" value="3">
+                                    <label for="{{ "4star3"|add:l }}"></label>
+                                    <input type="radio" name="star4" id="{{ "4star2"|add:l }}" value="2">
+                                    <label for="{{ "4star2"|add:l }}"></label>
+                                    <input type="radio" name="star4" id="{{ "4star1"|add:l }}" value="1">
+                                    <label for="{{ "4star1"|add:l }}"></label>
+                                  </div>
+                                </div>
+                                <br>
+
+                                Question 5 <br>
+                                       <div class="d-flex justify-content-start">
+                                        <div class="rating">
+                                          <input type="radio" name="star5" id="{{ "5star5"|add:l }}" value="5" required="True">
+                                          <label for="{{ "5star5"|add:l }}"></label>
+                                          <input type="radio" name="star5" id="{{ "5star4"|add:l }}" value="4">
+                                          <label for="{{ "5star4"|add:l }}"></label>
+                                          <input type="radio" name="star5" id="{{ "5star3"|add:l }}" value="3">
+                                          <label for="{{ "5star3"|add:l }}"></label>
+                                          <input type="radio" name="star5" id="{{ "5star2"|add:l }}" value="2">
+                                          <label for="{{ "5star2"|add:l }}"></label>
+                                          <input type="radio" name="star5" id="{{ "5star1"|add:l }}" value="1">
+                                          <label for="{{ "5star1"|add:l }}"></label>
+                                        </div>
+                                      </div>
+                                      <br>
+
+                                      Question 6 <br>
+                                             <div class="d-flex justify-content-start">
+                                              <div class="rating">
+                                                <input type="radio" name="star6" id="{{ "6star5"|add:l }}" value="5" required="True">
+                                                <label for="{{ "6star5"|add:l }}"></label>
+                                                <input type="radio" name="star6" id="{{ "6star4"|add:l }}" value="4">
+                                                <label for="{{ "6star4"|add:l }}"></label>
+                                                <input type="radio" name="star6" id="{{ "6star3"|add:l }}" value="3">
+                                                <label for="{{ "6star3"|add:l }}"></label>
+                                                <input type="radio" name="star6" id="{{ "6star2"|add:l }}" value="2">
+                                                <label for="{{ "6star2"|add:l }}"></label>
+                                                <input type="radio" name="star6" id="{{ "6star1"|add:l }}" value="1">
+                                                <label for="{{ "6star1"|add:l }}"></label>
+                                              </div>
+                                            </div>
+                                            <br>
+
+                                            Question 7 <br>
+                                                   <div class="d-flex justify-content-start">
+                                                    <div class="rating">
+                                                      <input type="radio" name="star7" id="{{ "7star5"|add:l }}" value="5" required="True">
+                                                      <label for="{{ "7star5"|add:l }}"></label>
+                                                      <input type="radio" name="star7" id="{{ "7star4"|add:l }}" value="4">
+                                                      <label for="{{ "7star4"|add:l }}"></label>
+                                                      <input type="radio" name="star7" id="{{ "7star3"|add:l }}" value="3">
+                                                      <label for="{{ "7star3"|add:l }}"></label>
+                                                      <input type="radio" name="star7" id="{{ "7star2"|add:l }}" value="2">
+                                                      <label for="{{ "7star2"|add:l }}"></label>
+                                                      <input type="radio" name="star7" id="{{ "7star1"|add:l }}" value="1">
+                                                      <label for="{{ "7star1"|add:l }}"></label>
+                                                    </div>
+                                                  </div>
+                                                  <br>
+
+
+                <input class="btn btn-primary" type="submit" value="Submit">
+          </form>
+
+    <br>  {{ l }} <br>
+      </div>
+    </div>
+  </div>
+
+
+
+
+{% endfor %}
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>
