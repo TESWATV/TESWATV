@@ -60,13 +60,15 @@ def overall(request):
     for a in rating_table.objects.all():
         num1=num1+a.count
     num2=0
-    for b in credited_courses_table.objects.all():
+    #for b in credited_courses_table.objects.all():
+    #    num2=num2+1
+    for b in credited_courses_table.objects.values('roll_no').distinct():
         num2=num2+1
     num3=0
-    for c in rating_table.objects.exclude(count=0):
+    for c in rating_table.objects.values('faculty_name').distinct().exclude(count=0):
         num3=num3+1
     num4=0
-    for d in rating_table.objects.exclude(count=0):
+    for d in rating_table.objects.values('course_name').distinct().exclude(count=0):
         num4=num4+1
     num5=0
     for e in credited_courses_table.objects.filter(feedback_status=False):
