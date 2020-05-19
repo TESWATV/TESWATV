@@ -5,11 +5,12 @@
       </div>
     {% endfor %}
 {% else %}
+<h3>Upload from DSS</h3
 {{order}}
 <form method ="post" enctype="multipart/form-data">
     {% csrf_token %}
     <label>Upload a file</label>
-    <input type="file" name ="file">
+    <input type="file" name ="file1">
     <p>Only accepts CSV files</p>
     <button type="submit">Upload</button>
 </form>

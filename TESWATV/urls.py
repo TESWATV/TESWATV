@@ -18,5 +18,7 @@ urlpatterns = [
     path('save_database_1/', views.save_database_1),
     path('save_database_2/', views.save_database_2),
     path('update_database/', views.update_database),
+    path('update_database_dss/', views.update_database_dss),
+    path('update_database_saved/', views.update_database_saved),
     path('admin/', views.admin),
 ]

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Evaluation Progress</title>
+</head>
+<body>
+  <form action = "" method="post" >
+    {% csrf_token %}
+    <table border = "1">
+         <tr>
+            <th>Roll no.</th>
+            <th>Status</th>
+            <th>Department</th>
+         </tr>
+         {% for a in abcd %}
+         <tr>
+             <td>{{ a }}</td>
+             <td>{{ status }}</td>
+             <td>{{ department }}</td>
+         </tr>
+         {% endfor %}
+      </table>
+  </form>
+</body>
+</html>

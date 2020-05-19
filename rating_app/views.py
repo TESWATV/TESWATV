@@ -91,18 +91,26 @@ def save_database(request):
 
 def evaluation_progress(request):
     if request.method=="GET":
-        template="evaluation_progress.html"
+        template="evaluation_progress_test.html"
         form=forms.progress()
         return render(request,template,{'form':form})
     else:
         form=forms.progress(request.POST)
+        template="evaluation_progress_test.html"
         if form.is_valid():
             status=form.cleaned_data['Status']
             department=form.cleaned_data['Department']
+            status=int(status)
+            if status == 1 :
+                statusname = 'Completed'
+            elif status == 0 :
+                statusname = 'Pending'
+
             if credited_courses_table.objects.filter(feedback_status=status).exists() :
-                q1 = credited_courses_table.objects.filter(roll_no__endswith=department)
+                q1 = credited_courses_table.objects.filter(roll_no__endswith=department).distinct()
                 q2 = q1.filter(feedback_status=status).values('roll_no')
-                return HttpResponse(q2)
+                abcd=q2.values_list('roll_no', flat=True).order_by('roll_no')
+                return render(request,template,{'abcd':abcd,'status':statusname,'department':department,'form':form})
             else :
                 return HttpResponse('No matching rows')
 
@@ -124,7 +132,7 @@ def details(request):
                 perc=ans/5
                 perc=perc*100
                 text = str(perc) + "%"
-                return render(request,'detailed_statistics.html',{'text':text,'abcd':abcd})
+                return render(request,'details.html',{'text':text,'abcd':abcd,'form':form,'fname':a,'cname':b})
             else :
                 return HttpResponse('Does not exist')
 
@@ -133,8 +141,6 @@ def overall(request):
     for a in rating_table.objects.all():
         num1=num1+a.count
     num2=0
-    #for b in credited_courses_table.objects.all():
-    #    num2=num2+1
     for b in credited_courses_table.objects.values('roll_no').distinct():
         num2=num2+1
     num3=0
@@ -174,9 +180,51 @@ def delete_database(request):
     return HttpResponse('all tables cleared')
 
 def update_database(request):
-    template="update_database.html"
+    template="update_database_options.html"
+    return render(request,template)
+
+def update_database_dss(request):
+    template="update_database_dss.html"
     prompt={
         'order' : 'Order of CSV file should be roll no., faculty name, course name.'
+    }
+    if request.method == "GET":
+        return render(request,template,prompt)
+    csv_file = request.FILES['file']
+    if not csv_file.name.endswith('.csv'):
+        messages.error(request, 'This is not a csv file')
+    data_set = csv_file.read().decode('UTF-8')
+    io_string = io.StringIO(data_set)
+    next(io_string)
+    for column in csv.reader(io_string, delimiter=',', quotechar="|"):
+        _, created = credited_courses_table.objects.update_or_create(
+            roll_no=column[0],
+            faculty_name=column[1],
+            course_name=column[2],
+            feedback_status = False
+        )
+        _, created = rating_table.objects.update_or_create(
+            faculty_name=column[1],
+            course_name=column[2],
+            question_1 = 0,
+            question_2 = 0,
+            question_3 = 0,
+            question_4 = 0,
+            question_5 = 0,
+            question_6 = 0,
+            question_7 = 0,
+            count = 0
+        )
+    context = {
+    'order' : 'Successfully uploaded'
+    }
+    return HttpResponse('Successfully uploaded')
+
+def update_database_saved(request):
+    template="update_database_saved.html"
+    prompt={
+        'order1' : 'Order of CSV file should be roll no., faculty name, course name, feedback_status',
+        'order2' : 'Order of CSV file should be faculty name,course name,question 1,question 2,question 3,question 4,question 5,question 6,question 7,count'
     }
     if request.method == "GET":
         return render(request,template,prompt)
