@@ -1,12 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>admin</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <title>Save database</title>
+  <style>
+  body
+  {
+      margin: 1 ;
+      padding: 1;
+      background: #ffffff;
+  }
+  </style>
+
 </head>
-<body>
+<body class="text-center">
     {% csrf_token %}
-    <a href='/save_database/'> Save the current database <br>
-    <a href='/delete_database/'> Clear the current database  <br>
-    <a href='/update_database/'> Update the database <br>
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #50b7f2;" >
+        <a class="navbar-brand" href="http://127.0.0.1:8000/admin/" >Home</a>
+        <!--  this is for home -->
+
+        <div class="collapse navbar-collapse" >
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active" >
+              <div class="d-flex justify-content-center"></div>
+            </li>
+          </ul
+          <a class="nav-link" href="#" >Logout<span class="sr-only">(current)</span></a>
+          <!--  this is for logout -->
+        </div>
+      </nav>
+      <br>
+      <form action = "http://127.0.0.1:8000/save_database/" method = "GET">
+        <input class= "btn btn-primary" type = "submit" value = "Save the current database">
+      </form>
+      <br>
+      <form action = "http://127.0.0.1:8000/delete_database/" method = "GET">
+        <input class= "btn btn-primary" type = "submit" value = "Clear the current database">
+      </form>
+      <br>
+      <form action = "http://127.0.0.1:8000/update_database/" method = "GET">
+        <input class= "btn btn-primary" type = "submit" value = "Update the database">
+      </form>
+      <br>
+    </div>
 </body>
 </html>

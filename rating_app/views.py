@@ -81,25 +81,17 @@ def admin(request):
     template="admin.html"
     return render(request,template)
 
-def database(request):
-    template="database.html"
-    return render(request,template)
-
-def save_database(request):
-    template="save_database.html"
-    return render(request,template)
-
 def evaluation_progress(request):
     if request.method=="GET":
-        template="evaluation_progress_test.html"
+        template="evaluation_progress.html"
         form=forms.progress()
         return render(request,template,{'form':form})
     else:
         form=forms.progress(request.POST)
-        template="evaluation_progress_test.html"
+        template="evaluation_progress.html"
         if form.is_valid():
             status=form.cleaned_data['Status']
-            department=form.cleaned_data['Department']
+            department=form.cleaned_data['Roll_no_ends_with']
             status=int(status)
             if status == 1 :
                 statusname = 'Completed'
@@ -114,9 +106,9 @@ def evaluation_progress(request):
             else :
                 return HttpResponse('No matching rows')
 
-def details(request):
+def detailed_statistics(request):
     if request.method=="GET":
-        template="details.html"
+        template="detailed_statistics.html"
         form=forms.details()
         return render(request,template,{'form':form})
     else:
@@ -132,11 +124,15 @@ def details(request):
                 perc=ans/5
                 perc=perc*100
                 text = str(perc) + "%"
-                return render(request,'details.html',{'text':text,'abcd':abcd,'form':form,'fname':a,'cname':b})
+                return render(request,'detailed_statistics.html',{'text':text,'abcd':abcd,'form':form,'fname':a,'cname':b})
             else :
                 return HttpResponse('Does not exist')
 
-def overall(request):
+def detailed_statistics_2(request):
+    template="detailed_statistics_2.html"
+    return render(request,template)
+
+def overall_statistics(request):
     num1=0
     for a in rating_table.objects.all():
         num1=num1+a.count
@@ -153,6 +149,14 @@ def overall(request):
     for e in credited_courses_table.objects.filter(feedback_status=False):
         num5=num5+1
     return render(request,'overall_statistics.html',{'num1':num1,'num2':num2,'num3':num3,'num4':num4,'num5':num5})
+
+def database(request):
+    template="database.html"
+    return render(request,template)
+
+def save_database(request):
+    template="save_database.html"
+    return render(request,template)
 
 def save_database_1(request):
     response1 = HttpResponse(content_type='text/csv')
@@ -175,9 +179,10 @@ def save_database_2(request):
     return response2
 
 def delete_database(request):
-    credited_courses_table.objects.all().delete()
-    rating_table.objects.all().delete()
-    return HttpResponse('all tables cleared')
+    template="delete_database.html"
+    #credited_courses_table.objects.all().delete()
+    #rating_table.objects.all().delete()
+    return render(request,template)
 
 def update_database(request):
     template="update_database_options.html"
@@ -228,10 +233,10 @@ def update_database_saved(request):
     }
     if request.method == "GET":
         return render(request,template,prompt)
-    csv_file = request.FILES['file']
-    if not csv_file.name.endswith('.csv'):
+    csv_file_1 = request.FILES['file1']
+    if not csv_file_1.name.endswith('.csv'):
         messages.error(request, 'This is not a csv file')
-    data_set = csv_file.read().decode('UTF-8')
+    data_set = csv_file_1.read().decode('UTF-8')
     io_string = io.StringIO(data_set)
     next(io_string)
     for column in csv.reader(io_string, delimiter=',', quotechar="|"):
@@ -239,19 +244,26 @@ def update_database_saved(request):
             roll_no=column[0],
             faculty_name=column[1],
             course_name=column[2],
-            feedback_status = False
+            feedback_status = column[3]
         )
+    csv_file_2 = request.FILES['file2']
+    if not csv_file_2.name.endswith('.csv'):
+        messages.error(request, 'This is not a csv file')
+    data_set = csv_file_2.read().decode('UTF-8')
+    io_string = io.StringIO(data_set)
+    next(io_string)
+    for column in csv.reader(io_string, delimiter=',', quotechar="|"):
         _, created = rating_table.objects.update_or_create(
-            faculty_name=column[1],
-            course_name=column[2],
-            question_1 = 0,
-            question_2 = 0,
-            question_3 = 0,
-            question_4 = 0,
-            question_5 = 0,
-            question_6 = 0,
-            question_7 = 0,
-            count = 0
+            faculty_name=column[0],
+            course_name=column[1],
+            question_1 = column[2],
+            question_2 = column[3],
+            question_3 = column[4],
+            question_4 = column[5],
+            question_5 = column[6],
+            question_6 = column[7],
+            question_7 = column[8],
+            count = column[9]
         )
     context = {
     'order' : 'Successfully uploaded'

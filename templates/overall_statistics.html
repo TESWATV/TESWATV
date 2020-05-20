@@ -1,14 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Detailed Statistics</title>
+    <style>
+    body
+    {
+        margin: 1 ;
+        padding: 1;
+        background: #ffffff;
+    }
+    </style>
 </head>
-<body>
+<body class="text-center">
     {% csrf_token %}
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #50b7f2;" >
+        <a class="navbar-brand" href="http://127.0.0.1:8000/admin/" >Home</a>
+        <!--  this is for home -->
+
+        <div class="collapse navbar-collapse" >
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active" >
+              <div class="d-flex justify-content-center"></div>
+            </li>
+          </ul
+          <a class="nav-link" href="#" >Logout<span class="sr-only">(current)</span></a>
+          <!--  this is for logout -->
+        </div>
+      </nav>
     Total no. of evaluations : {{ num1 }}<br>
     Total no. of students participated : {{ num2 }}<br>
     Total no. of teachers rated at least once : {{ num3 }}<br>
     Total no. of courses rated at least once : {{ num4 }}<br>
     Pending evaluations : {{ num5 }}<br>
+  </div>
 </body>
 </html>

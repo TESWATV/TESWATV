@@ -1,11 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>select</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <title>Save database</title>
+  <style>
+  body
+  {
+      margin: 1 ;
+      padding: 1;
+      background: #ffffff;
+  }
+  </style>
+
 </head>
-<body>
+<body class="text-center">
     {% csrf_token %}
-    <a href='/update_database_dss/'> Upload CSV file from DSS <br>
-    <a href='/update_database_saved/'> Upload CSV files saved before <br>
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #50b7f2;" >
+        <a class="navbar-brand" href="http://127.0.0.1:8000/admin/" >Home</a>
+        <!--  this is for home -->
+
+        <div class="collapse navbar-collapse" >
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active" >
+              <div class="d-flex justify-content-center"></div>
+            </li>
+          </ul
+          <a class="nav-link" href="#" >Logout<span class="sr-only">(current)</span></a>
+          <!--  this is for logout -->
+        </div>
+      </nav>
+      <br>
+      <form action = "http://127.0.0.1:8000/update_database_dss/" method = "GET">
+        <input class= "btn btn-primary" type = "submit" value = "Upload CSV file from DSS">
+      </form>
+      <br>
+      <form action = "http://127.0.0.1:8000/update_database_saved/" method = "GET">
+        <input class= "btn btn-primary" type = "submit" value = "Upload CSV files saved before">
+      </form>
+      <br>
+    </div>
 </body>
 </html>
