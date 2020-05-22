@@ -6,6 +6,21 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <title>Update database from saved</title>
   <style>
+  #nav
+  {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    padding: 0;
+    list-style: none;
+    background-color: #50b7f2;
+  }
+  #nav li
+  {
+    display: inline-block;
+    text-align:center;
+    font-size:2em;
+  }
   body
   {
       margin: 1 ;
@@ -15,17 +30,18 @@
   </style>
 
 </head>
-<body class="text-center">
+<body class="text-center" style="height: 100%; background-color: rgba(0,0,0,.1);">
     {% csrf_token %}
     <div class="container">
+      <div class="border border-dark" >
       <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #50b7f2;" >
         <a class="navbar-brand" href="http://127.0.0.1:8000/admin/" >Home</a>
         <!--  this is for home -->
 
         <div class="collapse navbar-collapse" >
-          <ul class="navbar-nav mr-auto">
+          <ul class="navbar-nav mr-auto" id="nav">
             <li class="nav-item active" >
-              <div class="d-flex justify-content-center"></div>
+              <div class="d-flex justify-content-center">Update Database</div>
             </li>
           </ul
           <a class="nav-link" href="#" >Logout<span class="sr-only">(current)</span></a>
@@ -40,20 +56,22 @@
             </div>
           {% endfor %}
       {% else %}
-      <h3><u>Upload from saved</u></h3>
+      <h3><u>Upload CSV file saved before</u></h3>
       <form method ="post" enctype="multipart/form-data">
           {% csrf_token %}
           <label><h3>Upload credited courses table file</h3></label>
           <input type="file" name ="file1">
-          <p>Note: Only accepts CSV files.</p>
+          <p>Note : Only accepts CSV files.</p>
           <p>{{order1}}</p>
           <label><h3>Upload rating table file</h3></label>
           <input type="file" name ="file2">
-          <p>Note:Only accepts CSV files</p>
+          <p>Note : Only accepts CSV files</p>
           <p>{{order2}}</p>
           <button type="submit">Upload</button>
       </form>
+      <br>
       {% endif %}
     </div>
+  </div>
 </body>
 </html>

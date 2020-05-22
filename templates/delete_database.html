@@ -6,6 +6,21 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <title>Save database</title>
   <style>
+  #nav
+  {
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    padding: 0;
+    list-style: none;
+    background-color: #50b7f2;
+  }
+  #nav li
+  {
+    display: inline-block;
+    text-align:center;
+    font-size:2em;
+  }
   #alert1
   {
     font-weight: bold;
@@ -26,15 +41,16 @@
   </style>
 
 </head>
-<body class="text-center">
+<body class="text-center" style="height: 100%; background-color: rgba(0,0,0,.1);">
     {% csrf_token %}
     <div class="container">
+      <div class="border border-dark" >
       <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #50b7f2;" >
         <a class="navbar-brand" href="http://127.0.0.1:8000/admin/" >Home</a>
         <div class="collapse navbar-collapse" >
-          <ul class="navbar-nav mr-auto">
+          <ul class="navbar-nav mr-auto" id="nav">
             <li class="nav-item active" >
-              <div class="d-flex justify-content-center"></div>
+              <div class="d-flex justify-content-center">Delete Database</div>
             </li>
           </ul
           <a class="nav-link" href="#" >Logout<span class="sr-only">(current)</span></a>
@@ -51,9 +67,11 @@
         Are you sure?
       </div>
       <br>
-      <button type="button" class="btn btn-success">Yes</button>
-      <button type="button" class="btn btn-secondary">Cancel</button>
-
+      <a class="btn btn-success" href="http://127.0.0.1:8000/delete/" role="button">Yes</a>
+      <a class="btn btn-secondary" href="http://127.0.0.1:8000/database/" role="button">Cancel</a>
+      <br>
+      <br>
     </div>
+  </div>
 </body>
 </html>

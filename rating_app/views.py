@@ -104,13 +104,16 @@ def evaluation_progress(request):
                 abcd=q2.values_list('roll_no', flat=True).order_by('roll_no')
                 return render(request,template,{'abcd':abcd,'status':statusname,'department':department,'form':form})
             else :
-                return HttpResponse('No matching rows')
+                return render(request,'message.html',{'message':'No matching rows','title':'Evaluation Progress'})
 
 def detailed_statistics(request):
     if request.method=="GET":
         template="detailed_statistics.html"
         form=forms.details()
-        return render(request,template,{'form':form})
+        var1=rating_table.objects.all().values().order_by('faculty_name')
+
+        #return HttpResponse(var1)
+        return render(request,template,{'form':form,'abcd2':var1})
     else:
         form=forms.details(request.POST)
         if form.is_valid():
@@ -118,19 +121,29 @@ def detailed_statistics(request):
             b=form.cleaned_data['course_name']
             if rating_table.objects.filter(faculty_name=a,course_name=b).exists() :
                 abcd = rating_table.objects.get(faculty_name=a,course_name=b)
-                ans=abcd.question_1+abcd.question_2+abcd.question_3+abcd.question_4+abcd.question_5+abcd.question_6+abcd.question_7
-                ans=ans/7
-                ans=ans/abcd.count
-                perc=ans/5
-                perc=perc*100
-                text = str(perc) + "%"
-                return render(request,'detailed_statistics.html',{'text':text,'abcd':abcd,'form':form,'fname':a,'cname':b})
+                avg=abcd.question_1+abcd.question_2+abcd.question_3+abcd.question_4+abcd.question_5+abcd.question_6+abcd.question_7
+                avg=(avg/(7*5*abcd.count))*100
+                return render(request,'detailed_statistics.html',{'avg':avg,'abcd':abcd,'form':form,'fname':a,'cname':b})
             else :
-                return HttpResponse('Does not exist')
+                return HttpResponse('Row does not exist')
+        else :
+            return HttpResponse('Form is not valid')
 
-def detailed_statistics_2(request):
+def detailed_statistics_2(request) :
+    #var1 = request.POST['count']
+    var1 = request.POST.get('avg',None)
+    fname = request.POST.get('fname',None)
+    cname = request.POST.get('cname',None)
+    var2 = rating_table.objects.get(faculty_name=fname,course_name=cname)
+    var2.question_1=(var2.question_1 /(5*var2.count))*100
+    var2.question_2=(var2.question_2 /(5*var2.count))*100
+    var2.question_3=(var2.question_3 /(5*var2.count))*100
+    var2.question_4=(var2.question_4 /(5*var2.count))*100
+    var2.question_5=(var2.question_5 /(5*var2.count))*100
+    var2.question_6=(var2.question_6 /(5*var2.count))*100
+    var2.question_7=(var2.question_7 /(5*var2.count))*100
     template="detailed_statistics_2.html"
-    return render(request,template)
+    return render(request,template,{'avg':var1,'abcd':var2, 'fname':fname,'cname':cname})
 
 def overall_statistics(request):
     num1=0
@@ -180,9 +193,13 @@ def save_database_2(request):
 
 def delete_database(request):
     template="delete_database.html"
-    #credited_courses_table.objects.all().delete()
-    #rating_table.objects.all().delete()
     return render(request,template)
+
+def delete(request):
+    template="message.html"
+    credited_courses_table.objects.all().delete()
+    rating_table.objects.all().delete()
+    return render(request,template,{'message':'Successfully deleted','title':'Delete Database'})
 
 def update_database(request):
     template="update_database_options.html"
@@ -220,16 +237,14 @@ def update_database_dss(request):
             question_7 = 0,
             count = 0
         )
-    context = {
-    'order' : 'Successfully uploaded'
-    }
-    return HttpResponse('Successfully uploaded')
+    template="message.html"
+    return render(request,template,{'message':'Successfully uploaded','title':'Update Database'})
 
 def update_database_saved(request):
     template="update_database_saved.html"
     prompt={
         'order1' : 'Order of CSV file should be roll no., faculty name, course name, feedback_status',
-        'order2' : 'Order of CSV file should be faculty name,course name,question 1,question 2,question 3,question 4,question 5,question 6,question 7,count'
+        'order2' : 'Order of CSV file should be faculty name, course name, question 1, question 2, question 3, question 4, question 5, question 6, question 7, count'
     }
     if request.method == "GET":
         return render(request,template,prompt)
@@ -265,7 +280,5 @@ def update_database_saved(request):
             question_7 = column[8],
             count = column[9]
         )
-    context = {
-    'order' : 'Successfully uploaded'
-    }
-    return HttpResponse('Successfully uploaded')
+    template="message.html"
+    return render(request,template,{'message':'Successfully uploaded','title':'Update Database'})
