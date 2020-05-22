@@ -7,7 +7,7 @@ status_choices=(
 )
 class progress(forms.Form):
     Status = forms.ChoiceField(choices=status_choices)
-    Department = forms.CharField()
+    Roll_no_ends_with = forms.CharField()
 
 class details(forms.Form):
     faculty_name = forms.CharField()

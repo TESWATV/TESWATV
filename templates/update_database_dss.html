@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <title>Save database</title>
+  <title>Update database from saved</title>
   <style>
   body
   {
@@ -33,14 +33,23 @@
         </div>
       </nav>
       <br>
-      <form action = "http://127.0.0.1:8000/save_database_1/" method = "GET">
-        <input class= "btn btn-primary" type = "submit" value = "Save the credited courses table">
+      {% if messages %}
+          {% for message in messages%}
+            <div>
+                <strong>{{message|safe}}</strong>
+            </div>
+          {% endfor %}
+      {% else %}
+      <h3><u>Upload from DSS</u></h3>
+      {{ order }}
+      <form method ="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <label>Upload a file</label>
+          <input type="file" name = "file">
+          <p>Note : Only accepts CSV files</p>
+          <button type="submit">Upload</button>
       </form>
-      <br>
-      <form action = "http://127.0.0.1:8000/save_database_2/" method = "GET">
-        <input class= "btn btn-primary" type = "submit" value = "Save the rating table">
-      </form>
-      <br>
+      {% endif %}
     </div>
 </body>
 </html>

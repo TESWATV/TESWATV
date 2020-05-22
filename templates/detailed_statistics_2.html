@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detailed Statistics</title>
+</head>
+<body>
+    {% csrf_token %}
+    Average score : {{ text }}<br>
+    Faculty Name : Prof. {{ abcd.faculty_name }}<br>
+    Course Name : {{ abcd.course_name }}<br>
+    No. of students who gave feedback : {{ abcd.count }}<br>
+    Question 1 : {{ abcd.question_1 }}<br>
+    Question 2 : {{ abcd.question_2 }}<br>
+    Question 3 : {{ abcd.question_3 }}<br>
+    Question 4 : {{ abcd.question_4 }}<br>
+    Question 5 : {{ abcd.question_5 }}<br>
+    Question 6 : {{ abcd.question_6 }}<br>
+    Question 7 : {{ abcd.question_7 }}<br>
+</body>
+</html>

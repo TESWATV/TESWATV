@@ -81,14 +81,6 @@ def admin(request):
     template="admin.html"
     return render(request,template)
 
-def database(request):
-    template="database.html"
-    return render(request,template)
-
-def save_database(request):
-    template="save_database.html"
-    return render(request,template)
-
 def evaluation_progress(request):
     if request.method=="GET":
         template="evaluation_progress.html"
@@ -96,19 +88,27 @@ def evaluation_progress(request):
         return render(request,template,{'form':form})
     else:
         form=forms.progress(request.POST)
+        template="evaluation_progress.html"
         if form.is_valid():
             status=form.cleaned_data['Status']
-            department=form.cleaned_data['Department']
+            department=form.cleaned_data['Roll_no_ends_with']
+            status=int(status)
+            if status == 1 :
+                statusname = 'Completed'
+            elif status == 0 :
+                statusname = 'Pending'
+
             if credited_courses_table.objects.filter(feedback_status=status).exists() :
-                q1 = credited_courses_table.objects.filter(roll_no__endswith=department)
+                q1 = credited_courses_table.objects.filter(roll_no__endswith=department).distinct()
                 q2 = q1.filter(feedback_status=status).values('roll_no')
-                return HttpResponse(q2)
+                abcd=q2.values_list('roll_no', flat=True).order_by('roll_no')
+                return render(request,template,{'abcd':abcd,'status':statusname,'department':department,'form':form})
             else :
                 return HttpResponse('No matching rows')
 
-def details(request):
+def detailed_statistics(request):
     if request.method=="GET":
-        template="details.html"
+        template="detailed_statistics.html"
         form=forms.details()
         return render(request,template,{'form':form})
     else:
@@ -124,17 +124,19 @@ def details(request):
                 perc=ans/5
                 perc=perc*100
                 text = str(perc) + "%"
-                return render(request,'detailed_statistics.html',{'text':text,'abcd':abcd})
+                return render(request,'detailed_statistics.html',{'text':text,'abcd':abcd,'form':form,'fname':a,'cname':b})
             else :
                 return HttpResponse('Does not exist')
 
-def overall(request):
+def detailed_statistics_2(request):
+    template="detailed_statistics_2.html"
+    return render(request,template)
+
+def overall_statistics(request):
     num1=0
     for a in rating_table.objects.all():
         num1=num1+a.count
     num2=0
-    #for b in credited_courses_table.objects.all():
-    #    num2=num2+1
     for b in credited_courses_table.objects.values('roll_no').distinct():
         num2=num2+1
     num3=0
@@ -147,6 +149,14 @@ def overall(request):
     for e in credited_courses_table.objects.filter(feedback_status=False):
         num5=num5+1
     return render(request,'overall_statistics.html',{'num1':num1,'num2':num2,'num3':num3,'num4':num4,'num5':num5})
+
+def database(request):
+    template="database.html"
+    return render(request,template)
+
+def save_database(request):
+    template="save_database.html"
+    return render(request,template)
 
 def save_database_1(request):
     response1 = HttpResponse(content_type='text/csv')
@@ -169,12 +179,17 @@ def save_database_2(request):
     return response2
 
 def delete_database(request):
-    credited_courses_table.objects.all().delete()
-    rating_table.objects.all().delete()
-    return HttpResponse('all tables cleared')
+    template="delete_database.html"
+    #credited_courses_table.objects.all().delete()
+    #rating_table.objects.all().delete()
+    return render(request,template)
 
 def update_database(request):
-    template="update_database.html"
+    template="update_database_options.html"
+    return render(request,template)
+
+def update_database_dss(request):
+    template="update_database_dss.html"
     prompt={
         'order' : 'Order of CSV file should be roll no., faculty name, course name.'
     }
@@ -204,6 +219,51 @@ def update_database(request):
             question_6 = 0,
             question_7 = 0,
             count = 0
+        )
+    context = {
+    'order' : 'Successfully uploaded'
+    }
+    return HttpResponse('Successfully uploaded')
+
+def update_database_saved(request):
+    template="update_database_saved.html"
+    prompt={
+        'order1' : 'Order of CSV file should be roll no., faculty name, course name, feedback_status',
+        'order2' : 'Order of CSV file should be faculty name,course name,question 1,question 2,question 3,question 4,question 5,question 6,question 7,count'
+    }
+    if request.method == "GET":
+        return render(request,template,prompt)
+    csv_file_1 = request.FILES['file1']
+    if not csv_file_1.name.endswith('.csv'):
+        messages.error(request, 'This is not a csv file')
+    data_set = csv_file_1.read().decode('UTF-8')
+    io_string = io.StringIO(data_set)
+    next(io_string)
+    for column in csv.reader(io_string, delimiter=',', quotechar="|"):
+        _, created = credited_courses_table.objects.update_or_create(
+            roll_no=column[0],
+            faculty_name=column[1],
+            course_name=column[2],
+            feedback_status = column[3]
+        )
+    csv_file_2 = request.FILES['file2']
+    if not csv_file_2.name.endswith('.csv'):
+        messages.error(request, 'This is not a csv file')
+    data_set = csv_file_2.read().decode('UTF-8')
+    io_string = io.StringIO(data_set)
+    next(io_string)
+    for column in csv.reader(io_string, delimiter=',', quotechar="|"):
+        _, created = rating_table.objects.update_or_create(
+            faculty_name=column[0],
+            course_name=column[1],
+            question_1 = column[2],
+            question_2 = column[3],
+            question_3 = column[4],
+            question_4 = column[5],
+            question_5 = column[6],
+            question_6 = column[7],
+            question_7 = column[8],
+            count = column[9]
         )
     context = {
     'order' : 'Successfully uploaded'
