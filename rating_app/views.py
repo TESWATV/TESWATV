@@ -10,49 +10,56 @@ def home(request):
     request.session.set_test_cookie()
     if request.session.test_cookie_worked():
         request.session.delete_test_cookie()
-        return render(request,'home.html')
+        return render(request,'home2.html')
     else:
-        return HttpResponse('Your browser does not accept cookies.')
+        return render(request,'error.html',{'text':'Your browser does not accept cookies. Cookies are necessary for this website to function properly.'} )
 
 def success(request):
         if not request.user.is_authenticated:
-            return HttpResponse('Login to Google first')
+            logout(request)
+            return render(request,'error.html',{'text':'Google login failure. Logout and try again.'} )
         mail=str(request.user.email)
         if not (mail[-11:] == '@nitc.ac.in'):
-            return HttpResponse('You are not authenticated to evaluate any courses. Ensure that you are using NITC mail id.')
+            logout(request)
+            return render(request,'error.html',{'text':'You are not authenticated to evaluate any courses. Go to home page and try again. Ensure that you are using NITC mail id.' } )
         roll=mail[-20:-11]
         obj=credited_courses_table.objects.filter(roll_no=roll)
         if not len(obj):
-            return HttpResponse("You don't seem to have registered for any courses. Contact your faculty advisor.")
+            logout(request)
+            return render(request,'error.html',{'text':"You don't seem to have registered for any courses. Contact your faculty advisor." } )
+        logout(request)
         request.session['roll']=roll
         request.session.set_expiry(1200)
         return redirect('/rate/')
 
 def rate(request):
-    if not request.user.is_authenticated:
-            return HttpResponse('Login to Google first')
+    #if not request.user.is_authenticated:
+    #        return render(request,'error.html',{'text':'You need to log in with Google first. Go to home page and try again.'} )
     if not request.session.get('roll'):
-        return HttpResponse('Please go to login page. The session might have expired')
+        return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
     request.session.set_expiry(1200)
     roll=str(request.session['roll'])
-
+    #feedback_status is passed down
     if request.method=='GET':
-        obj=credited_courses_table.objects.filter(roll_no=roll,feedback_status=0)
-        if not obj.exists():
-            return HttpResponse('You have completed the evaluation. Thank you.')
-        listt=[]
+        obj=credited_courses_table.objects.filter(roll_no=roll)
+        listt={}
+        completed = 1
         for o in obj:
-            listt.append(o.course_name + ' - ' + o.faculty_name)
-        return render(request,'rate.html',{'listt':listt})
+            key=str(o.course_name + ' | ' + o.faculty_name)
+            listt[key] = int(o.feedback_status)
+            if o.feedback_status == 0:
+                completed =0
+
+        return render(request,'rate3.html',{'listt':listt, 'completed':completed } )
     else:
         pair = request.POST['pair']
-        pos = pair.find('-')
+        pos = pair.find('|')
         cname = pair[:pos-1]
         fname = pair[pos+2:]
         obj=credited_courses_table.objects.filter(roll_no = roll, course_name = cname, faculty_name = fname)
         obj = obj[0]
         if obj.feedback_status == 1:
-            return HttpResponse('You have already rated this course.')
+            return render(request,'double_rate.html')
         obj.feedback_status = 1
         obj.save()
         obj = rating_table.objects.filter(course_name = cname, faculty_name = fname)
@@ -68,14 +75,7 @@ def rate(request):
         obj.count = obj.count + 1
         obj.save()
 
-        obj=credited_courses_table.objects.filter(roll_no=roll,feedback_status=0)
-        if not obj.exists():
-            return HttpResponse('You have completed the evaluation. Thank you.')
-        listt=[]
-        for o in obj:
-            listt.append(o.course_name + ' - ' + o.faculty_name)
-        return render(request,'rate.html',{'listt':listt})
-
+        return redirect('/rate/')
 
 def admin(request):
     template="admin.html"

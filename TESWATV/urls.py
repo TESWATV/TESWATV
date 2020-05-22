@@ -23,6 +23,7 @@ urlpatterns = [
     path('delete_database/', views.delete_database),
     path('delete/', views.delete),
     path('update_database/', views.update_database),
+
     path('update_database_dss/', views.update_database_dss),
     path('update_database_saved/', views.update_database_saved),
 
