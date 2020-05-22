@@ -1,77 +1,83 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <title>Save database</title>
-  <style>
-  #nav
-  {
-    width: 100%;
-    display: inline-block;
-    text-align: center;
-    padding: 0;
-    list-style: none;
-    background-color: #50b7f2;
-  }
-  #nav li
-  {
-    display: inline-block;
-    text-align:center;
-    font-size:2em;
-  }
-  #alert1
-  {
-    font-weight: bold;
-    font-size:2em;
-  }
-  #alert2
-   {
-     width:40%;
-     margin: auto;
-  }
-  body
-  {
-      font-size: 100%;
-      margin: 1 ;
-      padding: 1;
-      background: #ffffff;
-  }
-  </style>
+<html lang="en">
+    <head>
+      {% load static %}
+      {% load socialaccount %}
+      {% providers_media_js %}
 
-</head>
-<body class="text-center" style="height: 100%; background-color: rgba(0,0,0,.1);">
-    {% csrf_token %}
-    <div class="container">
-      <div class="border border-dark" >
-      <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #50b7f2;" >
-        <a class="navbar-brand" href="http://127.0.0.1:8000/admin/" >Home</a>
-        <div class="collapse navbar-collapse" >
-          <ul class="navbar-nav mr-auto" id="nav">
-            <li class="nav-item active" >
-              <div class="d-flex justify-content-center">Delete Database</div>
-            </li>
-          </ul
-          <a class="nav-link" href="#" >Logout<span class="sr-only">(current)</span></a>
-        </div>
-      </nav>
-      <br>
-      <div class="alert alert-danger" role="alert" id="alert1">
-        Alert : You are going to clear the entire database
-      </div>
-      Note: Make sure you have backed up the database to your local machine before clearing it.
-      <br>
-      <br>
-      <div class="alert alert-info" role="alert" id="alert2">
-        Are you sure?
-      </div>
-      <br>
-      <a class="btn btn-success" href="http://127.0.0.1:8000/delete/" role="button">Yes</a>
-      <a class="btn btn-secondary" href="http://127.0.0.1:8000/database/" role="button">Cancel</a>
-      <br>
-      <br>
-    </div>
-  </div>
-</body>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Admin</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"/>
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <!--<link href="css/styles2.css" rel="stylesheet" /> -->
+        <link href="{% static 'css/styles2.css' %}" rel='stylesheet'>
+        <style>
+        #alert1
+        {
+          font-weight: bold;
+          font-size:1.75em;
+        }
+        #alert2
+         {
+           font-weight: bold;
+           font-size:1.1em;
+           width:40%;
+           margin: auto;
+        }
+        </style>
+
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="http://127.0.0.1:8000/admin/">Home</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<i class="fas fa-bars"></i></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="http://127.0.0.1:8000/database/">Database Functions</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#projects">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container d-flex h-100 align-items-center">
+                <div class="mx-auto text-center">
+                    <div class="alert alert-danger" role="alert" id="alert1">
+                      Alert : You are going to clear the entire database
+                    </div>
+                    Note: Make sure you have backed up the database to your local machine before clearing it.
+                    <br>
+                    <br>
+                    <div class="alert alert-info" role="alert" id="alert2">
+                      Are you sure?
+                    </div>
+                    <br>
+                    <a class="btn-lg btn-success" href="http://127.0.0.1:8000/delete/" role="button" id="button1">Yes</a>
+                    <a class="btn-lg btn-secondary" href="http://127.0.0.1:8000/database/" role="button" id="button2">Cancel</a>
+                    <br>
+                    <br>
+                </div>
+            </div>
+        </header>
+
+        <!-- Projects-->
+        <!-- Bootstrap core JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <!-- Third party plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'js/scripts2.js' %}"></script>
+    </body>
 </html>

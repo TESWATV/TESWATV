@@ -81,6 +81,14 @@ def admin(request):
     template="admin.html"
     return render(request,template)
 
+def admin2(request):
+    template="admin2.html"
+    return render(request,template)
+
+def admin3(request):
+    template="index.html"
+    return render(request,template)
+
 def evaluation_progress(request):
     if request.method=="GET":
         template="evaluation_progress.html"
@@ -98,7 +106,7 @@ def evaluation_progress(request):
             elif status == 0 :
                 statusname = 'Pending'
 
-            if credited_courses_table.objects.filter(feedback_status=status).exists() :
+            if credited_courses_table.objects.filter(feedback_status=status,roll_no__endswith=department).exists() :
                 q1 = credited_courses_table.objects.filter(roll_no__endswith=department).distinct()
                 q2 = q1.filter(feedback_status=status).values('roll_no')
                 abcd=q2.values_list('roll_no', flat=True).order_by('roll_no')
@@ -123,25 +131,33 @@ def detailed_statistics(request):
                 abcd = rating_table.objects.get(faculty_name=a,course_name=b)
                 avg=abcd.question_1+abcd.question_2+abcd.question_3+abcd.question_4+abcd.question_5+abcd.question_6+abcd.question_7
                 avg=(avg/(7*5*abcd.count))*100
+                avg = float("{:.2f}".format(round(avg, 2)))
                 return render(request,'detailed_statistics.html',{'avg':avg,'abcd':abcd,'form':form,'fname':a,'cname':b})
             else :
-                return HttpResponse('Row does not exist')
+                return render(request,'message.html',{'message':'Row does not exist','title':'Evaluation Progress'})
         else :
-            return HttpResponse('Form is not valid')
+            return render(request,'message.html',{'message':'Form is not valid','title':'Evaluation Progress'})
 
 def detailed_statistics_2(request) :
-    #var1 = request.POST['count']
+    #var1 = request.POST['avg']
     var1 = request.POST.get('avg',None)
     fname = request.POST.get('fname',None)
     cname = request.POST.get('cname',None)
     var2 = rating_table.objects.get(faculty_name=fname,course_name=cname)
     var2.question_1=(var2.question_1 /(5*var2.count))*100
+    var2.question_1 = float("{:.2f}".format(round(var2.question_1, 2)))
     var2.question_2=(var2.question_2 /(5*var2.count))*100
+    var2.question_2 = float("{:.2f}".format(round(var2.question_2, 2)))
     var2.question_3=(var2.question_3 /(5*var2.count))*100
+    var2.question_3 = float("{:.2f}".format(round(var2.question_3, 2)))
     var2.question_4=(var2.question_4 /(5*var2.count))*100
+    var2.question_4 = float("{:.2f}".format(round(var2.question_4, 2)))
     var2.question_5=(var2.question_5 /(5*var2.count))*100
+    var2.question_5 = float("{:.2f}".format(round(var2.question_5, 2)))
     var2.question_6=(var2.question_6 /(5*var2.count))*100
+    var2.question_6 = float("{:.2f}".format(round(var2.question_6, 2)))
     var2.question_7=(var2.question_7 /(5*var2.count))*100
+    var2.question_7 = float("{:.2f}".format(round(var2.question_7, 2)))
     template="detailed_statistics_2.html"
     return render(request,template,{'avg':var1,'abcd':var2, 'fname':fname,'cname':cname})
 

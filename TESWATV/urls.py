@@ -2,6 +2,9 @@ from django.contrib import admin
 from django.urls import include, path
 from rating_app import views
 from django.views.generic import TemplateView
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('accounts/', include('allauth.urls')),
@@ -12,6 +15,8 @@ urlpatterns = [
     path('djangoadmin/', admin.site.urls),
 
     path('admin/', views.admin),
+    path('admin2/', views.admin2),
+    path('admin3/', views.admin3),
     path('evaluation_progress/', views.evaluation_progress),
     path('detailed_statistics/', views.detailed_statistics),
     path('detailed_statistics_2/', views.detailed_statistics_2),
