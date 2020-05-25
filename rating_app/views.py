@@ -126,10 +126,23 @@ def detailed_statistics(request):
     if request.method=="GET":
         template="detailed_statistics.html"
         form=forms.details()
-        var1=rating_table.objects.all().values().order_by('faculty_name')
+        var1=rating_table.objects.values().order_by('faculty_name')
+        sum=[]
+        i=0
+        for var in var1:
+            t = var['question_1']+var['question_2']+var['question_3']+var['question_4']+var['question_5']+var['question_6']+var['question_7']
+            t = (t/(7*5*var['count']))*100
+            t = float("{:.2f}".format(round(t, 2)))
+            sum.append(t)
+            i=i+1
 
-        #return HttpResponse(var1)
-        return render(request,template,{'form':form,'abcd2':var1})
+        list_result = [entry for entry in var1]
+        i=0
+        for s in sum:
+            list_result[i].update({"average": sum[i]})
+            i=i+1
+
+        return render(request,template,{'form':form,'abcd2':list_result ,'sum':sum})
     else:
         form=forms.details(request.POST)
         if form.is_valid():
