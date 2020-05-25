@@ -1,5 +1,140 @@
-{% load socialaccount %}
-{% providers_media_js %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% load static %}
+        {% load socialaccount %}
+        {% providers_media_js %}
 
- hi {{ user }}
-<button>  <a href="{% provider_login_url 'google' %}">Login with Google</a>  </button>
+        <script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" crossorigin="anonymous"></script>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Course Evaluation</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/img/user-graduate-solid2.svg' %}" />
+
+        <!-- Font Awesome icons (free version)-->
+
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <!-- <link href="css/styles.css" rel="stylesheet" /> -->
+        <link href="{% static 'css/styles.css' %}" rel='stylesheet'>
+
+
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+            <div class="container">
+                <a class="navbar-brand js-scroll-trigger" href="/">
+                <img src="{% static 'assets/img/our.svg' %}" />
+                </a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<i class="fas fa-bars ml-1"></i></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav text-uppercase ml-auto">
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#instructions">Instructions</a></li>
+                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container">
+                <div class="masthead-subheading">NIT Calicut</div>
+                <div class="masthead-heading text-uppercase">Course Evaluation</div>
+                <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% provider_login_url 'google' %}">
+              <font size="+2">  <i class="fab fa-google"></i> </font>
+                   Log in with Google
+                </a>
+                <br>
+                <div class="btn-xl js-scroll-trigger">( Use NITC mail id )</div>
+            </div>
+        </header>
+        <!-- Services-->
+
+        <!-- Portfolio Grid-->
+        <div class="container">
+        <section class="page-section" id="instructions">
+              <div class="container">
+                <div class="row justify-content-md-center">
+                    <div class="col-md-8" style="border:3px solid #cecece;">
+                <div class="row justify-content-md-center">
+                    <div class="col-md-10">
+                <div class="text-center"> <br>
+                    <h2 class="section-heading text-uppercase">Instructions</h2>
+                    <h3 class="section-subheading text-muted">Please read the instructions carefully</h3>
+                </div>
+
+
+                        <font size="+1">
+                            <ul>
+                            <p><li>Log in with your NITC mail id only.</li></p>
+                            <p><li>After submission, you cannot change your responses for that course.</li></p>
+                            <p><li>Don't press back or reload button after logging in.</li></p>
+                            <p><li>If you can't change your google account, try
+                                  <ul>
+                                      <p><li>Using icognito window.</li></p>
+                                      <p><li>Signing out from google accounts.</li></p>
+                                      <p><li>Deleting cookies and cache.</li></p>
+                                  </ul>
+                              </li> <br> </p>
+                            </ul>
+                        </font>
+
+                </div>
+            </div> </div></div>
+          </div>
+        </section>
+      </div>
+
+        <section class="page-section bg-light" id="about">
+            <div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">About us</h2>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="team-member">
+                            <img class="mx-auto rounded-circle" src="{% static 'assets/img/team/2.jpg' %}" alt="" />
+                            <h4>Vinod Pathari</h4>
+                            <p class="text-muted">Lead Marketer</p>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="team-member">
+                            <img class="mx-auto rounded-circle" src="{% static 'assets/img/team/2.jpg' %}" alt="" />
+                            <h4>Amal Cyriac</h4>
+                            <p class="text-muted">Lead Designer</p>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="team-member">
+                            <img class="mx-auto rounded-circle" src="{% static 'assets/img/team/2.jpg' %}" alt="" />
+                            <h4>Thanzeel Hassan</h4>
+                            <p class="text-muted">Lead Developer</p>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-8 mx-auto text-center"><p class="large text-muted">For any queries, contact your FA.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <!-- Third party plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <!-- Contact form JS-->
+        <!-- Core theme JS-->
+        <script src="{% static 'js/scripts.js' %}"></script>
+    </body>
+</html>

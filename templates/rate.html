@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
- {% load static %}
+
   <meta charset="utf-8">
      <style media="screen">
      body
@@ -15,7 +15,7 @@
        position: relative;
        top: 0%;
        left:-0%;
-       transform: translate(0%,0%) /*rotateY(180deg)*/;
+       transform: translate(0%,30%) /*rotateY(180deg)*/;
        display: flex;
        flex-direction:row-reverse;
      }
@@ -27,7 +27,7 @@
      {
        display: block;
        cursor: pointer;
-       width : 20px;
+       width : 45px;
      }
      .rating label:before
      {
@@ -35,8 +35,8 @@
        font-family: fontAwesome;
        position: relative;
        display: block;
-       font-size: 20px;
-       color:#101010;
+       font-size: 35px;
+       color: #dbdbce; /*#101010; */
 
      }
      .rating label:after
@@ -45,8 +45,8 @@
        font-family: fontAwesome;
        position: absolute;
        display: block;
-       font-size: 20px;
-       color: #1f9cff;
+       font-size: 35px;
+       color: #ffc107;   /*#1f9cff;*/
        top: 0;
        opacity: 0;
        transition: .5s;
@@ -59,165 +59,283 @@
        opacity: 1;
      }
      </style>
-     {% load static %}
+      {% load static %}
      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+     <meta name="description" content="" />
+     <meta name="author" content="" />
+     <title>Course Evaluation</title>
+     <link rel="icon" type="image/x-icon" href="{% static 'assets/img/user-graduate-solid2.svg' %}" />
+
+     <script src="https://use.fontawesome.com/releases/v5.12.1/js/all.js" crossorigin="anonymous"></script>
+
+     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+     <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
 
 
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
+  <link rel='stylesheet' href="{% static 'css/styles.css' %}">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" >
+
+<!--  <script type="text/javascript">
+     window.history.forward();
+      function noBack() { window.history.forward(); }
+    </script>
+
 </head>
 
+<body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">  -->
+
+</head>
 <body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark" id="mainNav">
+      <div class="container">
+          <a class="navbar-brand js-scroll-trigger" href="/"><img src="{% static 'assets/img/our.svg' %}" /></a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<i class="fas fa-bars ml-1"></i></button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+              <ul class="navbar-nav text-uppercase ml-auto">
+                  <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/#instructions">Instructions</a></li>
+                  <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/#about">About</a></li>
+                  <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'home' %}">Logout</a></li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+<br><br><br>
+
+  <div class="jumbotron bg-white">
+    <div class="row justify-content-md-center">
+    <div class="col-md-8 text-center">
+      <br>
+  <h1 class="display-4 text-uppercase">Courses</h1>
+  <!--
+  <svg style="font-size: 4em;overflow: visible;">
+
+  <text>
+
+    <tspan>SVG</tspan>
+</text>
+
+</svg> -->
+</div>
+</div>
+<br><br>
 
 <div class="accordion" id="accordionExample">
 
-{% for l in listt %}
+{% for l, value in listt.items %}
 
 
-  <div class="card bg-secondary text-white">
-    <div class="card-header" id= "{{ "heading"|add:l }}">
+  <div class="container">
       <h2 class="mb-0">
-        <button class="btn btn-primary btn-block" type="button" data-toggle="collapse" data-target= {{ "#collapse"|add:l }} aria-expanded="false" aria-controls={{ "collapse"|add:l }}>
-          {{ l }}
+        <div class="row justify-content-md-center">
+        <div class="col-md-6">
+      <p>
+
+        {% if value %}
+          <button class="btn btn-warning text-white btn-lg btn-block btn-disabled" disabled id= "{{ '1heading'|add:l }}" type="button" data-toggle="collapse" data-target= {{ "#collapse"|add:l }} aria-expanded="false" aria-controls={{ "collapse"|add:l }}>
+      <p class="lead text-uppercase"> <font size="+2">{{ l }}</font> </p>
         </button>
+
+        {% else %}
+        <button class="btn btn-warning text-white btn-lg btn-block" id= "{{ 'heading'|add:l }}" type="button" data-toggle="collapse" data-target= {{ "#collapse"|add:l }} aria-expanded="false" aria-controls={{ "collapse"|add:l }}>
+    <p class="lead text-uppercase"> <font size="+2">{{ l }}</font> </p>
+      </button>
+      {% endif %}
+
+      </p>
+        </div>
+        </div>
       </h2>
+  </div>
+
+      <div class="row justify-content-md-center">
+      <div class="col-md-8">
+    <div id={{ "collapse"|add:l }} class="collapse" aria-labelledby="{{ 'heading'|add:l }}" data-parent="#accordionExample">
+      <div>
+
+        <div class="bg-light">
+           <div class="container">
+        <br>
+          <p class="lead" style="font-style:italic;">
+
+        ( 5 star - Strongly Agree ) <br>
+        ( 4 star - Agree ) <br>
+        ( 3 star - Neutral ) <br>
+        ( 2 star - Disagree ) <br>
+        ( 1 star - Strongly Disagree )
+        <br><br>
+        Selected Course :  {{ l }} <br><br>
+
+      </p>
     </div>
-
-
-    <div id={{ "collapse"|add:l }} class="collapse" aria-labelledby="{{ "heading"|add:l }}" data-parent="#accordionExample">
-      <div class="card-body">
-        ( 5 star - Strongly Agree ) <br> ( 1 star - Strongly Disagree ) <br><br>
-         {{ l }} <br><br>
+     </div>
         <form method="post">
           {% csrf_token %}
           <input type="hidden" value="{{ l }}" name="pair">
-        Question 1 <br>
+      <!--    <font size="+2">  -->
+      <!--    <div style = "font-family:helvetica,arial,serif;">   -->
+          <div class="lead">
+        <font size="+3">
+           <div class="container">
+           <br> The instructor comes well prepared.<br>
                <div class="d-flex justify-content-start">
                 <div class="rating">
-                  <input type="radio" name="star1" id="{{ "1star5"|add:l }}" value="5" required="True">
-                  <label for="{{ "1star5"|add:l }}"></label>
-                  <input type="radio" name="star1" id="{{ "1star4"|add:l }}" value="4">
-                  <label for="{{ "1star4"|add:l }}"></label>
-                  <input type="radio" name="star1" id="{{ "1star3"|add:l }}" value="3">
-                  <label for="{{ "1star3"|add:l }}"></label>
-                  <input type="radio" name="star1" id="{{ "1star2"|add:l }}" value="2">
-                  <label for="{{ "1star2"|add:l }}"></label>
-                  <input type="radio" name="star1" id="{{ "1star1"|add:l }}" value="1">
-                  <label for="{{ "1star1"|add:l }}"></label>
+                  <input type="radio" name="star1" id="{{ '1star5'|add:l }}" value="5" required="True">
+                  <label for="{{ '1star5'|add:l }}"></label>
+                  <input type="radio" name="star1" id="{{ '1star4'|add:l }}" value="4">
+                  <label for="{{ '1star4'|add:l }}"></label>
+                  <input type="radio" name="star1" id="{{ '1star3'|add:l }}" value="3">
+                  <label for="{{ '1star3'|add:l }}"></label>
+                  <input type="radio" name="star1" id="{{ '1star2'|add:l }}" value="2">
+                  <label for="{{ '1star2'|add:l }}"></label>
+                  <input type="radio" name="star1" id="{{ '1star1'|add:l }}" value="1">
+                  <label for="{{ '1star1'|add:l }}"></label>
                 </div>
               </div>
+            </div>
+
               <br>
 
-              Question 2 <br>
+            <div  class="bg-light">
+               <div class="container">
+          <br>    The instructor utilizes class time effectively.<br>
                      <div class="d-flex justify-content-start">
                       <div class="rating">
-                        <input type="radio" name="star2" id="{{ "2star5"|add:l }}" value="5" required="True">
-                        <label for="{{ "2star5"|add:l }}"></label>
-                        <input type="radio" name="star2" id="{{ "2star4"|add:l }}" value="4">
-                        <label for="{{ "2star4"|add:l }}"></label>
-                        <input type="radio" name="star2" id="{{ "2star3"|add:l }}" value="3">
-                        <label for="{{ "2star3"|add:l }}"></label>
-                        <input type="radio" name="star2" id="{{ "2star2"|add:l }}" value="2">
-                        <label for="{{ "2star2"|add:l }}"></label>
-                        <input type="radio" name="star2" id="{{ "2star1"|add:l }}" value="1">
-                        <label for="{{ "2star1"|add:l }}"></label>
+                        <input type="radio" name="star2" id="{{ '2star5'|add:l }}" value="5" required="True">
+                        <label for="{{ '2star5'|add:l }}"></label>
+                        <input type="radio" name="star2" id="{{ '2star4'|add:l }}" value="4">
+                        <label for="{{ '2star4'|add:l }}"></label>
+                        <input type="radio" name="star2" id="{{ '2star3'|add:l }}" value="3">
+                        <label for="{{ '2star3'|add:l }}"></label>
+                        <input type="radio" name="star2" id="{{ '2star2'|add:l }}" value="2">
+                        <label for="{{ '2star2'|add:l }}"></label>
+                        <input type="radio" name="star2" id="{{ '2star1'|add:l }}" value="1">
+                        <label for="{{ '2star1'|add:l }}"></label>
                       </div>
                     </div>
                     <br>
-
-                    Question 3 <br>
+                  </div>
+                </div>
+                    <div>
+                       <div class="container">
+                <br>    The instructor presents the course material with clarity that facilitates learning and understanding.<br>
                            <div class="d-flex justify-content-start">
                             <div class="rating">
-                              <input type="radio" name="star3" id="{{ "3star5"|add:l }}" value="5" required="True">
-                              <label for="{{ "3star5"|add:l }}"></label>
-                              <input type="radio" name="star3" id="{{ "3star4"|add:l }}" value="4">
-                              <label for="{{ "3star4"|add:l }}"></label>
-                              <input type="radio" name="star3" id="{{ "3star3"|add:l }}" value="3">
-                              <label for="{{ "3star3"|add:l }}"></label>
-                              <input type="radio" name="star3" id="{{ "3star2"|add:l }}" value="2">
-                              <label for="{{ "3star2"|add:l }}"></label>
-                              <input type="radio" name="star3" id="{{ "3star1"|add:l }}" value="1">
-                              <label for="{{ "3star1"|add:l }}"></label>
+                              <input type="radio" name="star3" id="{{ '3star5'|add:l }}" value="5" required="True">
+                              <label for="{{ '3star5'|add:l }}"></label>
+                              <input type="radio" name="star3" id="{{ '3star4'|add:l }}" value="4">
+                              <label for="{{ '3star4'|add:l }}"></label>
+                              <input type="radio" name="star3" id="{{ '3star3'|add:l }}" value="3">
+                              <label for="{{ '3star3'|add:l }}"></label>
+                              <input type="radio" name="star3" id="{{ '3star2'|add:l }}" value="2">
+                              <label for="{{ '3star2'|add:l }}"></label>
+                              <input type="radio" name="star3" id="{{ '3star1'|add:l }}" value="1">
+                              <label for="{{ '3star1'|add:l }}"></label>
                             </div>
                           </div>
                           <br>
-
-                          Question 4 <br>
+                        </div>
+                      </div>
+                          <div  class="bg-light">
+                             <div class="container">
+                      <br>    The instructor's teaching method is effective.<br>
                                  <div class="d-flex justify-content-start">
                                   <div class="rating">
-                                    <input type="radio" name="star4" id="{{ "4star5"|add:l }}" value="5" required="True">
-                                    <label for="{{ "4star5"|add:l }}"></label>
-                                    <input type="radio" name="star4" id="{{ "4star4"|add:l }}" value="4">
-                                    <label for="{{ "4star4"|add:l }}"></label>
-                                    <input type="radio" name="star4" id="{{ "4star3"|add:l }}" value="3">
-                                    <label for="{{ "4star3"|add:l }}"></label>
-                                    <input type="radio" name="star4" id="{{ "4star2"|add:l }}" value="2">
-                                    <label for="{{ "4star2"|add:l }}"></label>
-                                    <input type="radio" name="star4" id="{{ "4star1"|add:l }}" value="1">
-                                    <label for="{{ "4star1"|add:l }}"></label>
+                                    <input type="radio" name="star4" id="{{ '4star5'|add:l }}" value="5" required="True">
+                                    <label for="{{ '4star5'|add:l }}"></label>
+                                    <input type="radio" name="star4" id="{{ '4star4'|add:l }}" value="4">
+                                    <label for="{{ '4star4'|add:l }}"></label>
+                                    <input type="radio" name="star4" id="{{ '4star3'|add:l }}" value="3">
+                                    <label for="{{ '4star3'|add:l }}"></label>
+                                    <input type="radio" name="star4" id="{{ '4star2'|add:l }}" value="2">
+                                    <label for="{{ '4star2'|add:l }}"></label>
+                                    <input type="radio" name="star4" id="{{ '4star1'|add:l }}" value="1">
+                                    <label for="{{ '4star1'|add:l }}"></label>
                                   </div>
                                 </div>
                                 <br>
-
-                                Question 5 <br>
+                              </div>
+                            </div>
+                                <div>
+                                   <div class="container">
+                          <br>      The instructor's class stimulates interest and insight into the subject.<br>
                                        <div class="d-flex justify-content-start">
                                         <div class="rating">
-                                          <input type="radio" name="star5" id="{{ "5star5"|add:l }}" value="5" required="True">
-                                          <label for="{{ "5star5"|add:l }}"></label>
-                                          <input type="radio" name="star5" id="{{ "5star4"|add:l }}" value="4">
-                                          <label for="{{ "5star4"|add:l }}"></label>
-                                          <input type="radio" name="star5" id="{{ "5star3"|add:l }}" value="3">
-                                          <label for="{{ "5star3"|add:l }}"></label>
-                                          <input type="radio" name="star5" id="{{ "5star2"|add:l }}" value="2">
-                                          <label for="{{ "5star2"|add:l }}"></label>
-                                          <input type="radio" name="star5" id="{{ "5star1"|add:l }}" value="1">
-                                          <label for="{{ "5star1"|add:l }}"></label>
+                                          <input type="radio" name="star5" id="{{ '5star5'|add:l }}" value="5" required="True">
+                                          <label for="{{ '5star5'|add:l }}"></label>
+                                          <input type="radio" name="star5" id="{{ '5star4'|add:l }}" value="4">
+                                          <label for="{{ '5star4'|add:l }}"></label>
+                                          <input type="radio" name="star5" id="{{ '5star3'|add:l }}" value="3">
+                                          <label for="{{ '5star3'|add:l }}"></label>
+                                          <input type="radio" name="star5" id="{{ '5star2'|add:l }}" value="2">
+                                          <label for="{{ '5star2'|add:l }}"></label>
+                                          <input type="radio" name="star5" id="{{ '5star1'|add:l }}" value="1">
+                                          <label for="{{ '5star1'|add:l }}"></label>
                                         </div>
                                       </div>
                                       <br>
-
-                                      Question 6 <br>
+                                    </div>
+                                  </div>
+                                      <div  class="bg-light">
+                                         <div class="container">
+                                <br>      The instructor is regular and punctual in academic activities like tutorials/assignments/tests/projects/laboratory exercises.<br>
                                              <div class="d-flex justify-content-start">
                                               <div class="rating">
-                                                <input type="radio" name="star6" id="{{ "6star5"|add:l }}" value="5" required="True">
-                                                <label for="{{ "6star5"|add:l }}"></label>
-                                                <input type="radio" name="star6" id="{{ "6star4"|add:l }}" value="4">
-                                                <label for="{{ "6star4"|add:l }}"></label>
-                                                <input type="radio" name="star6" id="{{ "6star3"|add:l }}" value="3">
-                                                <label for="{{ "6star3"|add:l }}"></label>
-                                                <input type="radio" name="star6" id="{{ "6star2"|add:l }}" value="2">
-                                                <label for="{{ "6star2"|add:l }}"></label>
-                                                <input type="radio" name="star6" id="{{ "6star1"|add:l }}" value="1">
-                                                <label for="{{ "6star1"|add:l }}"></label>
+                                                <input type="radio" name="star6" id="{{ '6star5'|add:l }}" value="5" required="True">
+                                                <label for="{{ '6star5'|add:l }}"></label>
+                                                <input type="radio" name="star6" id="{{ '6star4'|add:l }}" value="4">
+                                                <label for="{{ '6star4'|add:l }}"></label>
+                                                <input type="radio" name="star6" id="{{ '6star3'|add:l }}" value="3">
+                                                <label for="{{ '6star3'|add:l }}"></label>
+                                                <input type="radio" name="star6" id="{{ '6star2'|add:l }}" value="2">
+                                                <label for="{{ '6star2'|add:l }}"></label>
+                                                <input type="radio" name="star6" id="{{ '6star1'|add:l }}" value="1">
+                                                <label for="{{ '6star1'|add:l }}"></label>
                                               </div>
                                             </div>
                                             <br>
-
-                                            Question 7 <br>
+                                          </div>
+                                        </div>
+                                            <div>
+                                               <div class="container">
+                                        <br>    The course plan provides sufficient information on the objectives and contents of the course, as well as the evaluation policy.<br>
                                                    <div class="d-flex justify-content-start">
                                                     <div class="rating">
-                                                      <input type="radio" name="star7" id="{{ "7star5"|add:l }}" value="5" required="True">
-                                                      <label for="{{ "7star5"|add:l }}"></label>
-                                                      <input type="radio" name="star7" id="{{ "7star4"|add:l }}" value="4">
-                                                      <label for="{{ "7star4"|add:l }}"></label>
-                                                      <input type="radio" name="star7" id="{{ "7star3"|add:l }}" value="3">
-                                                      <label for="{{ "7star3"|add:l }}"></label>
-                                                      <input type="radio" name="star7" id="{{ "7star2"|add:l }}" value="2">
-                                                      <label for="{{ "7star2"|add:l }}"></label>
-                                                      <input type="radio" name="star7" id="{{ "7star1"|add:l }}" value="1">
-                                                      <label for="{{ "7star1"|add:l }}"></label>
+                                                      <input type="radio" name="star7" id="{{ '7star5'|add:l }}" value="5" required="True">
+                                                      <label for="{{ '7star5'|add:l }}"></label>
+                                                      <input type="radio" name="star7" id="{{ '7star4'|add:l }}" value="4">
+                                                      <label for="{{ '7star4'|add:l }}"></label>
+                                                      <input type="radio" name="star7" id="{{ '7star3'|add:l }}" value="3">
+                                                      <label for="{{ '7star3'|add:l }}"></label>
+                                                      <input type="radio" name="star7" id="{{ '7star2'|add:l }}" value="2">
+                                                      <label for="{{ '7star2'|add:l }}"></label>
+                                                      <input type="radio" name="star7" id="{{ '7star1'|add:l }}" value="1">
+                                                      <label for="{{ '7star1'|add:l }}"></label>
                                                     </div>
                                                   </div>
                                                   <br>
 
 
-                <input class="btn btn-primary" type="submit" value="Submit">
-          </form>
 
-    <br>  {{ l }} <br>
+              <div class="text-center">  <input class="btn btn-warning btn-lg text-white" type="submit" value="Submit">
+            <!--  </div> --> </div>
+              </div>  </div>
+        <!--  </font> -->
+      </font> </div>
+           </form>
+  <div class="container">
+     <p class="lead" style="font-style:italic;">
+    <br>Selected Course : {{ l }} <br>
+  </p>
+
+  <hr class="my-4">
+  <br><br><br> </div>
+
       </div>
     </div>
   </div>
+</div>
 
 
 
@@ -225,18 +343,35 @@
 {% endfor %}
 </div>
 
+  {% if completed %}
+  <div class="row justify-content-md-center">
+  <div class="col-md-6 text-center">
+  <div class="lead">
+  <font size="+3">
+   <div class="container">
+    <br> You have completed the evaluation.<br>Thank you.
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   </div>
+ </font>
+   </div>
+   </div>
+   </div>
+   {% endif %}
 
-<!-- Third party plugin JS-->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-<!-- Contact form JS-->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+
+</div>
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<!-- Third party plugin JS-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+<!-- Contact form JS-->
+
+<!-- Core theme JS-->
+<script src="{% static 'js/scripts.js' %}"></script>
 </body>
 </html>
