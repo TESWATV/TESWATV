@@ -2491,8 +2491,8 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #64a19d;
-  border-color: #64a19d;
+  background-color: #27bfce;
+  border-color: #27bfce;
 }
 .btn-primary:hover {
   color: #fff;
@@ -10005,9 +10005,20 @@ a.text-black:hover, a.text-black:focus {
 }
 
 .text-black-50 {
-  color: rgba(0, 0, 0, 0.5) !important;
+  color: rgba(0, 0, 0) !important;
+  font-size: 1.4rem;
+  text-transform: uppercase;
 }
-
+.text-black-60 {
+  color: rgba(0, 0, 0) !important;
+  font-size: 2rem;
+}
+.text-black-100 {
+  color: rgba(0, 0, 0) !important;
+  font-size: 2rem;
+  text-transform: uppercase;
+  font : normal;
+}
 .text-white-50 {
   color: rgba(255, 255, 255, 0.5) !important;
 }
@@ -10153,7 +10164,7 @@ body {
 }
 #mainNav .navbar-brand {
   color: #000000;
-  font-weight: 700;
+  font-weight: 500;
   padding: 0.9rem 0;
 }
 #mainNav .navbar-nav .nav-item:hover {
@@ -10214,12 +10225,27 @@ body {
 
 .btn {
   box-shadow: 0 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.1) !important;
-  padding: 1.25rem 2rem;
+  padding: .75rem 1rem ;
   font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  font-size: 80%;
+  font-size: 100%;
   text-transform: uppercase;
   letter-spacing: 0.15rem;
   border: 0;
+  color: white;
+  background-color: #27bfce;
+  width: 100%;
+}
+.btn-btn2 {
+  box-shadow: 0 0.1875rem 0.1875rem 0 rgba(0, 0, 0, 0.1) !important;
+  padding: 0;
+  font-family: "Varela Round", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 100%;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  border: 0;
+  color: white;
+  background-color: red;
+  width:40%
 }
 
 .masthead {
@@ -10228,7 +10254,10 @@ body {
   height: auto;
   min-height: 35rem;
   padding: 15rem 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 0%, #ffffff 170%), url("../assets/img/grey-wallpaper-3.jpg");
+  /*background: #27bfce;*/
+
+  background: url("../assets/img/bg3.jpg");
+  /*background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.3) 0%, #ffffff 170%), url("../assets/img/header-bg.jpg");*/
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -10268,4 +10297,34 @@ body {
     max-width: 30rem;
     font-size: 1.25rem;
   }
+}
+
+.btn-thanzeel {
+  color: #fff;
+  background-color: #64a19d;
+  border-color: #64a19d;
+}
+.btn-thanzeel:hover {
+  color: #fff;
+  background-color: #548b87;
+  border-color: #4f837f;
+}
+.btn-thanzeel:focus, .btn-primary.focus {
+  color: #fff;
+  background-color: #548b87;
+  border-color: #4f837f;
+  box-shadow: 0 0 0 0.2rem rgba(123, 175, 172, 0.5);
+}
+.btn-thanzeel.disabled, .btn-primary:disabled {
+  color: #fff;
+  background-color: #64a19d;
+  border-color: #64a19d;
+}
+.btn-thanzeel:not(:disabled):not(.disabled):active, .btn-primary:not(:disabled):not(.disabled).active, .show > .btn-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #4f837f;
+  border-color: #4a7b78;
+}
+.btn-thanzeel:not(:disabled):not(.disabled):active:focus, .btn-primary:not(:disabled):not(.disabled).active:focus, .show > .btn-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.2rem rgba(123, 175, 172, 0.5);
 }

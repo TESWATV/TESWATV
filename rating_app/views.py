@@ -101,7 +101,11 @@ def evaluation_progress(request):
     if request.method=="GET":
         template="evaluation_progress.html"
         form=forms.progress()
-        return render(request,template,{'form':form})
+        var1=credited_courses_table.objects.values().order_by('roll_no')
+
+        #return HttpResponse(var1)
+        list_result = [entry for entry in var1]
+        return render(request,template,{'form':form,'abcd':list_result})
     else:
         form=forms.progress(request.POST)
         template="evaluation_progress.html"
@@ -187,7 +191,7 @@ def overall_statistics(request):
     for a in rating_table.objects.all():
         num1=num1+a.count
     num2=0
-    for b in credited_courses_table.objects.values('roll_no').distinct():
+    for b in credited_courses_table.objects.values('roll_no').distinct().exclude(feedback_status=False):
         num2=num2+1
     num3=0
     for c in rating_table.objects.values('faculty_name').distinct().exclude(count=0):
