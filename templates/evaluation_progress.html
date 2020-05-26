@@ -78,7 +78,6 @@
                        <tr>
                           <th>Roll no.</th>
                           <th>Status</th>
-                          <th>Department</th>
                        </tr>
                        {% for a in abcd %}
                        <tr>
@@ -91,7 +90,6 @@
                              Pending
                              {% endif %}
                              </td>
-                           <td>hai</td>
                        </tr>
                        {% endfor %}
                   </table>
@@ -102,13 +100,11 @@
                        <tr>
                           <th>Roll no.</th>
                           <th>Status</th>
-                          <th>Department</th>
                        </tr>
                        {% for a in abcd %}
                        <tr>
                            <td>{{ a }}</td>
                            <td>{{ status }}</td>
-                           <td>{{ department }}</td>
                        </tr>
                        {% endfor %}
                   </table>

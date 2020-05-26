@@ -101,7 +101,7 @@ def evaluation_progress(request):
     if request.method=="GET":
         template="evaluation_progress.html"
         form=forms.progress()
-        var1=credited_courses_table.objects.values().order_by('roll_no')
+        var1=credited_courses_table.objects.values('roll_no','feedback_status').order_by('roll_no').distinct('roll_no')
 
         #return HttpResponse(var1)
         list_result = [entry for entry in var1]
@@ -184,7 +184,9 @@ def detailed_statistics_2(request) :
     var2.question_7=(var2.question_7 /(5*var2.count))*100
     var2.question_7 = float("{:.2f}".format(round(var2.question_7, 2)))
     template="detailed_statistics_2.html"
-    return render(request,template,{'avg':var1,'abcd':var2, 'fname':fname,'cname':cname})
+    data=credited_courses_table.objects.filter(faculty_name=fname,course_name=cname,feedback_status=False)
+    count2=len(data)
+    return render(request,template,{'avg':var1,'abcd':var2, 'fname':fname,'cname':cname,'count2':count2})
 
 def overall_statistics(request):
     num1=0
