@@ -5,6 +5,14 @@ from rating_app.models import credited_courses_table,rating_table
 from . import forms
 from django.contrib.auth import logout
 
+class details:
+    def __init__(self,cname,fname,display,status,id):
+        self.cname = cname
+        self.fname = fname
+        self.display = display
+        self.status = status
+        self.id = id
+
 def home(request):
     logout(request)
     request.session.set_test_cookie()
@@ -18,12 +26,16 @@ def success(request):
         if not request.user.is_authenticated:
             return render(request,'error.html',{'text':'Google login failure. Logout and try again.'} )
         mail=str(request.user.email)
+        if mail == 'coursefeedback@nitc.ac.in':
+            request.session['roll']=email
+            request.session.set_expiry(14400)
+            return redirect('/admin/')
         if mail == 'pathari@gmail.com':
             roll = mail
         else:
             if not (mail[-11:] == '@nitc.ac.in'):
                 return render(request,'error.html',{'text':'You are not authenticated to evaluate any courses. Go to home page and try again. Ensure that you are using NITC mail id.' } )
-            roll=mail[-20:-11]
+            roll=mail[-20:-11].upper()
         obj=credited_courses_table.objects.filter(roll_no=roll)
         if not len(obj):
             return render(request,'error.html',{'text':"You don't seem to have registered for any courses. Contact your faculty advisor." } )
@@ -38,23 +50,25 @@ def rate(request):
         return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
     request.session.set_expiry(1200)
     roll=str(request.session['roll'])
-    #feedback_status is passed down
     if request.method=='GET':
         obj=credited_courses_table.objects.filter(roll_no=roll)
-        listt={}
         completed = 1
+        id = 1
+        listt = []
         for o in obj:
-            key=str(o.course_name + ' | PROF. ' + o.faculty_name)
-            listt[key] = int(o.feedback_status)
-            if o.feedback_status == 0:
+            cname = o.course_name
+            fname = o.faculty_name
+            display = cname + ' | PROF. ' + fname
+            status = o.feedback_status
+            listt.append(details(cname,fname,display,status,str(id)))
+            id = id + 1
+            if status == 0:
                 completed =0
 
         return render(request,'rate.html',{'listt':listt, 'completed':completed } )
     else:
-        pair = request.POST['pair']
-        pos = pair.find('|')
-        cname = pair[:pos-1]
-        fname = pair[pos+8:]
+        cname = request.POST['cname']
+        fname = request.POST['fname']
         obj=credited_courses_table.objects.filter(roll_no = roll, course_name = cname, faculty_name = fname)
         obj = obj[0]
         if obj.feedback_status == 1:
@@ -75,15 +89,20 @@ def rate(request):
         obj.save()
 
         obj=credited_courses_table.objects.filter(roll_no=roll)
-        listt={}
         completed = 1
+        id = 1
+        listt = []
         for o in obj:
-            key=str(o.course_name + ' | PROF. ' + o.faculty_name)
-            listt[key] = int(o.feedback_status)
-            if o.feedback_status == 0:
+            cname = o.course_name
+            fname = o.faculty_name
+            display = cname + ' | PROF. ' + fname
+            status = o.feedback_status
+            listt.append(details(cname,fname,display,status,str(id)))
+            id = id + 1
+            if status == 0:
                 completed =0
-
         return render(request,'rate.html',{'listt':listt, 'completed':completed } )
+
 
 def admin(request):
     template="admin.html"
