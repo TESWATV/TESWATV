@@ -121,10 +121,11 @@ def evaluation_progress(request):
         template="evaluation_progress.html"
         form=forms.progress()
         var1=credited_courses_table.objects.values('roll_no','feedback_status').order_by('roll_no').distinct('roll_no')
-
-        #return HttpResponse(var1)
         list_result = [entry for entry in var1]
+        for list in list_result:
+            list['roll_no']=list['roll_no'].upper()
         return render(request,template,{'form':form,'abcd':list_result})
+
     else:
         form=forms.progress(request.POST)
         template="evaluation_progress.html"
@@ -282,7 +283,7 @@ def update_database_dss(request):
     next(io_string)
     for column in csv.reader(io_string, delimiter=',', quotechar="|"):
         _, created = credited_courses_table.objects.update_or_create(
-            roll_no=column[0],
+            roll_no=column[0].lower(),
             faculty_name=column[1],
             course_name=column[2],
             feedback_status = False
@@ -318,7 +319,7 @@ def update_database_saved(request):
     next(io_string)
     for column in csv.reader(io_string, delimiter=',', quotechar="|"):
         _, created = credited_courses_table.objects.update_or_create(
-            roll_no=column[0],
+            roll_no=column[0].lower(),
             faculty_name=column[1],
             course_name=column[2],
             feedback_status = column[3]
