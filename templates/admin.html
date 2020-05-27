@@ -24,11 +24,11 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
-                <a class="text-black-100 navbar-brand text-uppercase js-scroll-trigger" href="http://127.0.0.1:8000/admin/">Home</a>
+                <a class="text-black-100 navbar-brand text-uppercase js-scroll-trigger" href="/admin/">Home</a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<i class="fas fa-bars"></i></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item"><a class="text-black-50 text-uppercase nav-link js-scroll-trigger" href="http://127.0.0.1:8000/database/">Database Functions</a></li>
+                        <li class="nav-item"><a class="text-black-50 text-uppercase nav-link js-scroll-trigger" href="/database/">Database Functions</a></li>
                         <li class="nav-item"><a class="text-black-50 text-uppercase nav-link js-scroll-trigger" href="{% url 'home' %}">Logout</a></li>
                     </ul>
                 </div>
@@ -39,15 +39,15 @@
             <div class="container d-flex h-100 align-items-center">
               <div class="mx-auto text-center">
                 <h3 class="text-black-60 mx-auto mt-2 mb-5">Welcome, Admin.</h3>
-                <form action = "http://127.0.0.1:8000/evaluation_progress/" method = "GET">
+                <form action = "/evaluation_progress/" method = "GET">
                   <input class= "btn" type = "submit" value = "Evaluation Progress">
                 </form>
                 <br>
-                <form action = "http://127.0.0.1:8000/detailed_statistics/" method = "GET">
+                <form action = "/detailed_statistics/" method = "GET">
                   <input class= "btn" type = "submit" value = "Detailed Statistics">
                 </form>
                 <br>
-                <form action = "http://127.0.0.1:8000/overall_statistics/" method = "GET">
+                <form action = "/overall_statistics/" method = "GET">
                   <input class= "btn" type = "submit" value = "Overall Statistics">
                 </form>
                 <br>
