@@ -15,8 +15,6 @@ urlpatterns = [
     path('djangoadmin/', admin.site.urls),
 
     path('admin/', views.admin),
-    path('admin2/', views.admin2),
-    path('admin3/', views.admin3),
     path('evaluation_progress/', views.evaluation_progress),
     path('detailed_statistics/', views.detailed_statistics),
     path('detailed_statistics_2/', views.detailed_statistics_2),
@@ -27,8 +25,8 @@ urlpatterns = [
     path('save_database_2/', views.save_database_2),
     path('delete_database/', views.delete_database),
     path('delete/', views.delete),
+    path('check/',views.check),
     path('update_database/', views.update_database),
-
     path('update_database_dss/', views.update_database_dss),
     path('update_database_saved/', views.update_database_saved),
 

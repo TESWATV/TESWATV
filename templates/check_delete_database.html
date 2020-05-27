@@ -19,6 +19,21 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <!--<link href="css/styles2.css" rel="stylesheet" /> -->
         <link href="{% static 'css/styles2.css' %}" rel='stylesheet'>
+        <style>
+        #alert1
+        {
+          font-weight: bold;
+          font-size:1.75em;
+        }
+        #alert2
+         {
+           font-weight: bold;
+           font-size:1.1em;
+           width:40%;
+           margin: auto;
+        }
+        </style>
+
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -37,24 +52,12 @@
         <!-- Masthead-->
         <header class="masthead">
             <div class="container d-flex h-100 align-items-center">
-                <div class="mx-auto text-left">
-                  <br>
+                <div class="mx-auto text-center">
+                    <br>
 
-                  Faculty Name : Prof. {{ abcd.faculty_name }}<br>
-                  Course Name : {{ abcd.course_name }}<br>
-                  No. of students who gave feedback : {{ abcd.count }}<br>
-                  No. of students who haven't given feedback : {{ count2 }}<br>
-                  <br>
-                  The instructor comes well prepared : {{abcd.question_1}} %<br>
-                  The instructor utilizes class time effectively : {{ abcd.question_2 }} %<br>
-                  The instructor presents the course material with clarity that facilitates learning and understanding : {{ abcd.question_3 }} %<br>
-                  The instructor's teaching method is effective : {{ abcd.question_4 }} %<br>
-                  The instructor's class stimulates interest and insight into the subject : {{ abcd.question_5 }} %<br>
-                  The instructor is regular and punctual in academic activities like tutorials/assignments/tests/projects/laboratory exercises : {{ abcd.question_6 }} %<br>
-                  The course plan provides sufficient information on the objectives and contents of the course, as well as the evaluation policy : {{ abcd.question_7 }} %<br>
-                  <br>
-                  Average score : {{ avg }} %<br>
-                  <br>
+                    <a class="btn-lg btn-success" href="http://127.0.0.1:8000/delete/" role="button" id="button1">Yes</a>
+                    <a class="btn-lg btn-secondary" href="http://127.0.0.1:8000/database/" role="button" id="button2">Cancel</a>
+                    <br>
                 </div>
             </div>
         </header>

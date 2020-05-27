@@ -26,22 +26,16 @@
           border-collapse: collapse;
           width:400px
         }
+        th
+        {
+          border: 1px solid #000000;
+          height: 100%
+        }
         td
         {
           border: 1px solid #000000;
           height: 100%
         }
-        .link-wrap
-        {
-          height: 100%;
-          display: table;
-        }
-        .link
-        {
-          display: table-cell;
-          vertical-align: middle;
-        }
-
         </style>
     </head>
     <body id="page-top">
@@ -53,7 +47,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item"><a class="text-black-50 nav-link text-uppercase js-scroll-trigger" href="http://127.0.0.1:8000/database/">Database Functions</a></li>
-                        <li class="nav-item"><a class="text-black-50 nav-link text-uppercase js-scroll-trigger" href="#projects">Logout</a></li>
+                        <li class="nav-item"><a class="text-black-50 nav-link text-uppercase js-scroll-trigger" href="{% url 'home' %}">Logout</a></li>
                     </ul>
                 </div>
             </div>
@@ -105,7 +99,7 @@
                        </tr>
                        {% for a in abcd %}
                        <tr>
-                           <td>{{ a }}</td>
+                           <td>{{ a.roll_no }}</td>
                            <td>{{ status }}</td>
                        </tr>
                        {% endfor %}

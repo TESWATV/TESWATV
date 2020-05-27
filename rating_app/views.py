@@ -27,7 +27,7 @@ def success(request):
             return render(request,'error.html',{'text':'Google login failure. Logout and try again.'} )
         mail=str(request.user.email)
         if mail == 'coursefeedback@nitc.ac.in':
-            request.session['roll']=email
+            request.session['roll']=mail
             request.session.set_expiry(14400)
             return redirect('/admin/')
         if mail == 'pathari@gmail.com':
@@ -35,7 +35,7 @@ def success(request):
         else:
             if not (mail[-11:] == '@nitc.ac.in'):
                 return render(request,'error.html',{'text':'You are not authenticated to evaluate any courses. Go to home page and try again. Ensure that you are using NITC mail id.' } )
-            roll=mail[-20:-11].upper()
+            roll=mail[-20:-11].lower()
         obj=credited_courses_table.objects.filter(roll_no=roll)
         if not len(obj):
             return render(request,'error.html',{'text':"You don't seem to have registered for any courses. Contact your faculty advisor." } )
@@ -105,18 +105,20 @@ def rate(request):
 
 
 def admin(request):
+    if not request.user.is_authenticated:
+            return render(request,'error.html',{'text':'You need to log in with Google first. Go to home page and try again.'} )
+    if not request.session.get('roll'):
+        return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
+    request.session.set_expiry(14400)
     template="admin.html"
     return render(request,template)
 
-def admin2(request):
-    template="admin2.html"
-    return render(request,template)
-
-def admin3(request):
-    template="index.html"
-    return render(request,template)
-
 def evaluation_progress(request):
+    if not request.user.is_authenticated:
+            return render(request,'error.html',{'text':'You need to log in with Google first. Go to home page and try again.'} )
+    if not request.session.get('roll'):
+        return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
+    request.session.set_expiry(14400)
     if request.method=="GET":
         template="evaluation_progress.html"
         form=forms.progress()
@@ -132,6 +134,7 @@ def evaluation_progress(request):
         if form.is_valid():
             status=form.cleaned_data['Status']
             department=form.cleaned_data['Roll_no_ends_with']
+            department=department.lower()
             status=int(status)
             if status == 1 :
                 statusname = 'Completed'
@@ -141,12 +144,20 @@ def evaluation_progress(request):
             if credited_courses_table.objects.filter(feedback_status=status,roll_no__endswith=department).exists() :
                 q1 = credited_courses_table.objects.filter(roll_no__endswith=department).distinct()
                 q2 = q1.filter(feedback_status=status).values('roll_no')
-                abcd=q2.values_list('roll_no', flat=True).order_by('roll_no')
-                return render(request,template,{'abcd':abcd,'status':statusname,'department':department,'form':form})
+                #abcd=q2.values_list('roll_no', flat=True).order_by('roll_no')
+                list_result2 = [entry for entry in q2]
+                for list in list_result2:
+                    list['roll_no']=list['roll_no'].upper()
+                return render(request,template,{'abcd':list_result2,'status':statusname,'department':department,'form':form})
             else :
                 return render(request,'message.html',{'message':'No matching rows','title':'Evaluation Progress'})
 
 def detailed_statistics(request):
+    if not request.user.is_authenticated:
+            return render(request,'error.html',{'text':'You need to log in with Google first. Go to home page and try again.'} )
+    if not request.session.get('roll'):
+        return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
+    request.session.set_expiry(14400)
     if request.method=="GET":
         template="detailed_statistics.html"
         form=forms.details()
@@ -184,6 +195,11 @@ def detailed_statistics(request):
             return render(request,'message.html',{'message':'Form is not valid','title':'Evaluation Progress'})
 
 def detailed_statistics_2(request) :
+    if not request.user.is_authenticated:
+            return render(request,'error.html',{'text':'You need to log in with Google first. Go to home page and try again.'} )
+    if not request.session.get('roll'):
+        return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
+    request.session.set_expiry(14400)
     #var1 = request.POST['avg']
     var1 = request.POST.get('avg',None)
     fname = request.POST.get('fname',None)
@@ -209,6 +225,11 @@ def detailed_statistics_2(request) :
     return render(request,template,{'avg':var1,'abcd':var2, 'fname':fname,'cname':cname,'count2':count2})
 
 def overall_statistics(request):
+    if not request.user.is_authenticated:
+            return render(request,'error.html',{'text':'You need to log in with Google first. Go to home page and try again.'} )
+    if not request.session.get('roll'):
+        return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
+    request.session.set_expiry(14400)
     num1=0
     for a in rating_table.objects.all():
         num1=num1+a.count
@@ -227,14 +248,29 @@ def overall_statistics(request):
     return render(request,'overall_statistics.html',{'num1':num1,'num2':num2,'num3':num3,'num4':num4,'num5':num5})
 
 def database(request):
+    if not request.user.is_authenticated:
+            return render(request,'error.html',{'text':'You need to log in with Google first. Go to home page and try again.'} )
+    if not request.session.get('roll'):
+        return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
+    request.session.set_expiry(14400)
     template="database.html"
     return render(request,template)
 
 def save_database(request):
+    if not request.user.is_authenticated:
+            return render(request,'error.html',{'text':'You need to log in with Google first. Go to home page and try again.'} )
+    if not request.session.get('roll'):
+        return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
+    request.session.set_expiry(14400)
     template="save_database.html"
     return render(request,template)
 
 def save_database_1(request):
+    if not request.user.is_authenticated:
+            return render(request,'error.html',{'text':'You need to log in with Google first. Go to home page and try again.'} )
+    if not request.session.get('roll'):
+        return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
+    request.session.set_expiry(14400)
     response1 = HttpResponse(content_type='text/csv')
     response1['Content-Disposition'] = 'attachment; filename="credited_courses_table.csv"'
     writer = csv.writer(response1)
@@ -245,6 +281,11 @@ def save_database_1(request):
     return response1
 
 def save_database_2(request):
+    if not request.user.is_authenticated:
+            return render(request,'error.html',{'text':'You need to log in with Google first. Go to home page and try again.'} )
+    if not request.session.get('roll'):
+        return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
+    request.session.set_expiry(14400)
     response2 = HttpResponse(content_type='text/csv')
     response2['Content-Disposition'] = 'attachment; filename="rating_table.csv"'
     writer = csv.writer(response2)
@@ -255,20 +296,49 @@ def save_database_2(request):
     return response2
 
 def delete_database(request):
+    if not request.user.is_authenticated:
+            return render(request,'error.html',{'text':'You need to log in with Google first. Go to home page and try again.'} )
+    if not request.session.get('roll'):
+        return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
+    request.session.set_expiry(14400)
     template="delete_database.html"
     return render(request,template)
 
+def check(request):
+    if not request.user.is_authenticated:
+            return render(request,'error.html',{'text':'You need to log in with Google first. Go to home page and try again.'} )
+    if not request.session.get('roll'):
+        return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
+    request.session.set_expiry(14400)
+    template="check_delete_database.html"
+    return render(request,template)
+
 def delete(request):
+    if not request.user.is_authenticated:
+            return render(request,'error.html',{'text':'You need to log in with Google first. Go to home page and try again.'} )
+    if not request.session.get('roll'):
+        return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
+    request.session.set_expiry(14400)
     template="message.html"
     credited_courses_table.objects.all().delete()
     rating_table.objects.all().delete()
     return render(request,template,{'message':'Successfully deleted','title':'Delete Database'})
 
 def update_database(request):
+    if not request.user.is_authenticated:
+            return render(request,'error.html',{'text':'You need to log in with Google first. Go to home page and try again.'} )
+    if not request.session.get('roll'):
+        return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
+    request.session.set_expiry(14400)
     template="update_database_options.html"
     return render(request,template)
 
 def update_database_dss(request):
+    if not request.user.is_authenticated:
+            return render(request,'error.html',{'text':'You need to log in with Google first. Go to home page and try again.'} )
+    if not request.session.get('roll'):
+        return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
+    request.session.set_expiry(14400)
     template="update_database_dss.html"
     prompt={
         'order' : 'Order of CSV file should be roll no., faculty name, course name.'
@@ -304,6 +374,11 @@ def update_database_dss(request):
     return render(request,template,{'message':'Successfully uploaded','title':'Update Database'})
 
 def update_database_saved(request):
+    if not request.user.is_authenticated:
+            return render(request,'error.html',{'text':'You need to log in with Google first. Go to home page and try again.'} )
+    if not request.session.get('roll'):
+        return render(request,'error.html',{'text':'Please go to home page and log in with Google again. The session might have expired' })
+    request.session.set_expiry(14400)
     template="update_database_saved.html"
     prompt={
         'order1' : 'Order of CSV file should be roll no., faculty name, course name, feedback_status',
