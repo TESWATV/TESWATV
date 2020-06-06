@@ -1,0 +1,1 @@
+web: gunicorn TESWATV.wsgi

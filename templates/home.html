@@ -31,11 +31,11 @@
             <div class="container">
                 <a class="navbar-brand js-scroll-trigger" href="/">
                 <img src="{% static 'assets/img/our.svg' %}" />
-                </a><button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<i class="fas fa-bars ml-1"></i></button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
+                </a>
+                <div id="navbarResponsive">
                     <ul class="navbar-nav text-uppercase ml-auto">
                         <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#instructions">Instructions</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#about">About</a></li>
+
                     </ul>
                 </div>
             </div>
@@ -87,55 +87,40 @@
                 </div>
               </div> </div></div>
               <br><br><br>
-            <p class="text-center">  <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% provider_login_url 'google' %}">
-              <font size="+2">  <i class="fab fa-google"></i> </font>
-                 Log in with Google
-              </a>
-            </p>
 
           </div>
+          <p class="text-center">  <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="{% provider_login_url 'google' %}">
+            <font size="+2">  <i class="fab fa-google"></i> </font>
+               Log in with Google
+            </a>
+          </p>
+
+          <div class="text-center">( Use NITC mail id )</div>
+
         </section>
       </div>
+      <div class="bg-light">
+      <br>
+           <div class="container text-center large text-muted">
 
-      <section class="page-section bg-light" id="about">
-           <div class="container">
-               <div class="text-center">
-                   <h2 class="section-heading text-uppercase">About Us</h2>
-
-               </div>
-               <br><br><br>
-               <div class="row">
-                 <div class="col-lg-3">
-
-                 </div>
-                   <div class="col-lg-3">
-                       <div class="team-member">
-
-                           <h4>Amal Cyriac</h4>
-                          <br>
-                          <a class="btn btn-dark btn-social mx-2" href="#"><i class="fab fa-linkedin-in"></i></a>
-                       </div>
-                   </div>
-                   <div class="col-lg-3">
-                       <div class="team-member">
-
-                           <h4>Thanzeel Hassan</h4>
-                           <br>
-                          <a class="btn btn-dark btn-social mx-2" href="#"><i class="fab fa-linkedin-in"></i></a>
-                       </div>
-                   </div>
-                   <div class="col-lg-3">
-
-                   </div>
-
-
-               </div>
-               <br><br><br>
-               <div class="row">
-                   <div class="col-lg-8 mx-auto text-center"><p class="large text-muted">For any technical queries contact coursefeedback@nitc.ac.in .</p></div>
-               </div>
+                Developed by  <br><br>
+                  <div class="d-flex justify-content-center">
+                  <div class="col-md-auto">
+                    Amal Cyriac <br>
+                    <a class="btn btn-dark btn-social mx-2 mt-2" href="/"><i class="fab fa-linkedin-in fa-sm"></i></a>
+                  </div>
+                  <div class="col-md-auto">
+                    Thanzeel Hassan <br>
+                    <a class="btn btn-dark btn-social mx-2 mt-2" href="/"><i class="fab fa-linkedin-in fa-sm"></i></a>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">For any technical queries contact coursefeedback@nitc.ac.in .</div>
+                </div>
            </div>
-       </section>
+           <br>
+         </div>
 
         <!-- Bootstrap core JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
