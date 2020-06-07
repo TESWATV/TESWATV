@@ -158,7 +158,7 @@ def evaluation_progress(request):
                         list['roll_no']=list['roll_no'].upper()
                     return render(request,template,{'abcd':list_result2,'status':statusname,'department':department,'form':form})
                 else :
-                    return render(request,'message.html',{'message':'No matching rows','title':'Evaluation Progress'})
+                    return render(request,template,{'form':form,'message':'No matching rows','title':'Evaluation Progress'})
     else:
         return render(request,'error.html',{'text':'You are not authenticated to access this page.' })
 
@@ -173,14 +173,17 @@ def detailed_statistics(request):
         if request.method=="GET":
             template="detailed_statistics.html"
             form=forms.details()
-            var1=rating_table.objects.values().exclude(count=0).order_by('faculty_name')
+            var1=rating_table.objects.values().order_by('faculty_name')
             sum=[]
             i=0
             for var in var1:
-                t = var['question_1']+var['question_2']+var['question_3']+var['question_4']+var['question_5']+var['question_6']+var['question_7']
-                t = (t/(7*5*var['count']))*100
-                t = float("{:.2f}".format(round(t, 2)))
-                sum.append(t)
+                if var['count'] == 0 :
+                    sum.append(0.00)
+                else :
+                    t = var['question_1']+var['question_2']+var['question_3']+var['question_4']+var['question_5']+var['question_6']+var['question_7']
+                    t = (t/(7*5*var['count']))*100
+                    t = float("{:.2f}".format(round(t, 2)))
+                    sum.append(t)
                 i=i+1
 
             list_result = [entry for entry in var1]
@@ -194,15 +197,35 @@ def detailed_statistics(request):
             form=forms.details(request.POST)
             if form.is_valid():
                 a=form.cleaned_data['faculty_name']
+                if a.startswith('Prof. ') :
+                    a=a[6:]
                 b=form.cleaned_data['course_name']
-                if rating_table.objects.filter(faculty_name=a,course_name=b).exists() :
-                    abcd = rating_table.objects.get(faculty_name=a,course_name=b)
-                    avg=abcd.question_1+abcd.question_2+abcd.question_3+abcd.question_4+abcd.question_5+abcd.question_6+abcd.question_7
-                    avg=(avg/(7*5*abcd.count))*100
-                    avg = float("{:.2f}".format(round(avg, 2)))
-                    return render(request,'detailed_statistics.html',{'avg':avg,'abcd':abcd,'form':form,'fname':a,'cname':b})
+
+                if rating_table.objects.filter(faculty_name__icontains=a,course_name__icontains=b).exists() :
+
+                    var1=rating_table.objects.values().filter(faculty_name__icontains=a,course_name__icontains=b).order_by('faculty_name')
+                    sum=[]
+                    i=0
+                    for var in var1:
+                        if var['count'] == 0 :
+                            sum.append(0.00)
+                        else :
+                            t = var['question_1']+var['question_2']+var['question_3']+var['question_4']+var['question_5']+var['question_6']+var['question_7']
+                            t = (t/(7*5*var['count']))*100
+                            t = float("{:.2f}".format(round(t, 2)))
+                            sum.append(t)
+                        i=i+1
+
+                    list_result = [entry for entry in var1]
+                    i=0
+                    for s in sum:
+                        list_result[i].update({"average": sum[i]})
+                        i=i+1
+
+                    return render(request,'detailed_statistics.html',{'form':form,'abcd2':list_result ,'sum':sum})
+
                 else :
-                    return render(request,'message.html',{'message':'Row does not exist','title':'Evaluation Progress'})
+                    return render(request,'detailed_statistics.html',{'message':'Row does not exist','title':'Evaluation Progress','form':form})
             else :
                 return render(request,'message.html',{'message':'Form is not valid','title':'Evaluation Progress'})
     else:
@@ -221,20 +244,24 @@ def detailed_statistics_2(request) :
         fname = request.POST.get('fname',None)
         cname = request.POST.get('cname',None)
         var2 = rating_table.objects.get(faculty_name=fname,course_name=cname)
-        var2.question_1=(var2.question_1 /(5*var2.count))*100
-        var2.question_1 = float("{:.2f}".format(round(var2.question_1, 2)))
-        var2.question_2=(var2.question_2 /(5*var2.count))*100
-        var2.question_2 = float("{:.2f}".format(round(var2.question_2, 2)))
-        var2.question_3=(var2.question_3 /(5*var2.count))*100
-        var2.question_3 = float("{:.2f}".format(round(var2.question_3, 2)))
-        var2.question_4=(var2.question_4 /(5*var2.count))*100
-        var2.question_4 = float("{:.2f}".format(round(var2.question_4, 2)))
-        var2.question_5=(var2.question_5 /(5*var2.count))*100
-        var2.question_5 = float("{:.2f}".format(round(var2.question_5, 2)))
-        var2.question_6=(var2.question_6 /(5*var2.count))*100
-        var2.question_6 = float("{:.2f}".format(round(var2.question_6, 2)))
-        var2.question_7=(var2.question_7 /(5*var2.count))*100
-        var2.question_7 = float("{:.2f}".format(round(var2.question_7, 2)))
+        if var2.count == 0 :
+            a=1
+        else :
+            var2.question_1=(var2.question_1 /(5*var2.count))*100
+            var2.question_1 = float("{:.2f}".format(round(var2.question_1, 2)))
+            var2.question_2=(var2.question_2 /(5*var2.count))*100
+            var2.question_2 = float("{:.2f}".format(round(var2.question_2, 2)))
+            var2.question_3=(var2.question_3 /(5*var2.count))*100
+            var2.question_3 = float("{:.2f}".format(round(var2.question_3, 2)))
+            var2.question_4=(var2.question_4 /(5*var2.count))*100
+            var2.question_4 = float("{:.2f}".format(round(var2.question_4, 2)))
+            var2.question_5=(var2.question_5 /(5*var2.count))*100
+            var2.question_5 = float("{:.2f}".format(round(var2.question_5, 2)))
+            var2.question_6=(var2.question_6 /(5*var2.count))*100
+            var2.question_6 = float("{:.2f}".format(round(var2.question_6, 2)))
+            var2.question_7=(var2.question_7 /(5*var2.count))*100
+            var2.question_7 = float("{:.2f}".format(round(var2.question_7, 2)))
+
         template="detailed_statistics_2.html"
         data=credited_courses_table.objects.filter(faculty_name=fname,course_name=cname,feedback_status=False)
         count2=len(data)
@@ -309,7 +336,7 @@ def save_database_1(request):
         writer.writerow(['roll_no', 'faculty_name', 'course_name', 'feedback_status'])
         rows = credited_courses_table.objects.all()
         for row in rows:
-            writer.writerow([row.roll_no,row.faculty_name,row.course_name,row.feedback_status])
+            writer.writerow([row.roll_no.upper(),row.faculty_name,row.course_name,row.feedback_status])
         return response1
     else:
         return render(request,'error.html',{'text':'You are not authenticated to access this page.' })
@@ -397,7 +424,7 @@ def update_database_dss(request):
         request.session.set_expiry(14400)
         template="update_database_dss.html"
         prompt={
-            'order' : 'Order of CSV file should be roll no., faculty name, course name.'
+            'order' : 'Order of CSV file should be , roll no., teacher no., faculty name, course name'
         }
         if request.method == "GET":
             return render(request,template,prompt)
@@ -409,14 +436,14 @@ def update_database_dss(request):
         next(io_string)
         for column in csv.reader(io_string, delimiter=',', quotechar="|"):
             _, created = credited_courses_table.objects.update_or_create(
-                roll_no=column[0].lower(),
-                faculty_name=column[1],
-                course_name=column[2],
+                roll_no=column[1].lower(),
+                faculty_name=column[3],
+                course_name=column[4],
                 feedback_status = False
             )
             _, created = rating_table.objects.update_or_create(
-                faculty_name=column[1],
-                course_name=column[2],
+                faculty_name=column[3],
+                course_name=column[4],
                 question_1 = 0,
                 question_2 = 0,
                 question_3 = 0,

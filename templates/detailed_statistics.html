@@ -57,6 +57,12 @@
             <div class="container d-flex h-100 align-items-center">
                 <div class="mx-auto text-center">
                   <br><br>
+                  {% if message %}
+                  <div class="alert alert-info" role="alert" id="alert">
+                    {{ message }}
+                  </div>
+                  {% endif %}
+                  <br>
                   <form action = "" method="post" >
                     {% csrf_token %}
                     <table>
@@ -67,28 +73,30 @@
                     <br>
                     <br>
                   </form>
-                  {% if  fname != None and cname != None%}
+                  {% if  fname != None and cname != None %}
                     <table border = "1">
                        <tr>
                           <th>Faculty name</th>
                           <th>Course name</th>
                           <th>Avearge Score</th>
                        </tr>
-                       <tr>
-                           <td>Prof. {{ fname }}</td>
-                           <td>{{ cname }}</td>
-                           <td>
-                              <form method="post" action="/detailed_statistics_2/" class="inline">
-                                {% csrf_token %}
-                                <input type="hidden" name="avg" value="{{ avg }}">
-                                <input type="hidden" name="fname" value="{{ fname }}">
-                                <input type="hidden" name="cname" value="{{ cname }}">
-                                <button type="submit" name="submit_param" value="submit_value" class="link-button">
-                                  {{ avg }} %
-                                </button>
-                              </form>
-                          </td>
-                       </tr>
+                       {% for a in abcd2 %}
+                         <tr>
+                               <td>Prof. {{ a.faculty_name }}</td>
+                               <td>{{ a.course_name }}</td>
+                               <td>
+                                  <form method="post" action="/detailed_statistics_2/" class="inline">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="avg" value="{{ a.average }}">
+                                    <input type="hidden" name="fname" value="{{ a.faculty_name }}">
+                                    <input type="hidden" name="cname" value="{{ a.course_name }}">
+                                    <button type="submit" name="submit_param" value="submit_value" class="link-button">
+                                      {{ a.average }} %
+                                    </button>
+                                  </form>
+                              </td>
+                         </tr>
+                       {% endfor %}
                     </table>
                     {% endif %}
               <!-- Default table -->
@@ -103,7 +111,17 @@
                               <tr>
                                     <td>Prof. {{ a.faculty_name }}</td>
                                     <td>{{ a.course_name }}</td>
-                                    <td> {{ a.average }} % </td>
+                                    <td>
+                                       <form method="post" action="/detailed_statistics_2/" class="inline">
+                                         {% csrf_token %}
+                                         <input type="hidden" name="avg" value="{{ a.average }}">
+                                         <input type="hidden" name="fname" value="{{ a.faculty_name }}">
+                                         <input type="hidden" name="cname" value="{{ a.course_name }}">
+                                         <button type="submit" name="submit_param" value="submit_value" class="link-button">
+                                           {{ a.average }} %
+                                         </button>
+                                       </form>
+                                   </td>
                               </tr>
                             {% endfor %}
                       </table>
