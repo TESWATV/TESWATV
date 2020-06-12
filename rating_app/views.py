@@ -130,12 +130,23 @@ def evaluation_progress(request):
         if request.method=="GET":
             template="evaluation_progress.html"
             form=forms.progress()
-            var1=credited_courses_table.objects.values('roll_no','feedback_status').order_by('roll_no').distinct('roll_no')
+            var1=credited_courses_table.objects.values('roll_no','feedback_status').order_by('roll_no','feedback_status').distinct('roll_no','feedback_status')
             list_result = [entry for entry in var1]
             for list in list_result:
                 list['roll_no']=list['roll_no'].upper()
-            return render(request,template,{'form':form,'abcd':list_result})
 
+            l=len(list_result)
+            i=0
+            while i < l-1:
+                if list_result[i]["roll_no"]==list_result[i+1]["roll_no"]:
+                    list_result[i+1].update({"feedback_status": False})
+                i=i+1
+
+            b = []
+            for i in range(0, len(list_result)):
+                if list_result[i] not in list_result[i+1:]:
+                    b.append(list_result[i])
+            return render(request,template,{'form':form,'abcd':b})
         else:
             form=forms.progress(request.POST)
             template="evaluation_progress.html"
@@ -143,6 +154,7 @@ def evaluation_progress(request):
                 status=form.cleaned_data['Status']
                 department=form.cleaned_data['Roll_no_ends_with']
                 department=department.lower()
+                status2=status
                 status=int(status)
                 if status == 1 :
                     statusname = 'Completed'
@@ -150,17 +162,30 @@ def evaluation_progress(request):
                     statusname = 'Pending'
 
                 if credited_courses_table.objects.filter(feedback_status=status,roll_no__endswith=department).exists() :
-                    q1 = credited_courses_table.objects.filter(roll_no__endswith=department).distinct()
-                    q2 = q1.filter(feedback_status=status).values('roll_no').order_by('roll_no')
-                    #abcd=q2.values_list('roll_no', flat=True).order_by('roll_no')
-                    list_result2 = [entry for entry in q2]
-                    for list in list_result2:
+                    q1 =var1=credited_courses_table.objects.values('roll_no','feedback_status').order_by('roll_no','feedback_status').distinct('roll_no','feedback_status')
+                    list_result1 = [entry for entry in q1]
+                    for list in list_result1:
                         list['roll_no']=list['roll_no'].upper()
-                    return render(request,template,{'abcd':list_result2,'status':statusname,'department':department,'form':form})
+
+                    l=len(list_result1)
+                    i=0
+                    while i < l-1:
+                        if list_result1[i]["roll_no"]==list_result1[i+1]["roll_no"]:
+                            list_result1[i+1].update({"feedback_status": False})
+                        i=i+1
+
+                    b = []
+                    for i in range(0, len(list_result1)):
+                        if list_result1[i] not in list_result1[i+1:] and list_result1[i]["feedback_status"] == status:
+                            b.append(list_result1[i])
+
+                    return render(request,template,{'abcd':b,'status':statusname,'department':department,'form':form})
                 else :
                     return render(request,template,{'form':form,'message':'No matching rows','title':'Evaluation Progress'})
     else:
         return render(request,'error.html',{'text':'You are not authenticated to access this page.' })
+
+
 
 def detailed_statistics(request):
     if not request.user.is_authenticated:

@@ -90,7 +90,7 @@
                              {% if  a.feedback_status == False %}
                              Pending
                              {% endif %}
-                             </td>
+                           </td>
                        </tr>
                        {% endfor %}
                   </table>
@@ -105,7 +105,14 @@
                        {% for a in abcd %}
                        <tr>
                            <td>{{ a.roll_no }}</td>
-                           <td>{{ status }}</td>
+                           <td>
+                             {% if  a.feedback_status == True %}
+                             Completed
+                             {% endif %}
+                             {% if  a.feedback_status == False %}
+                             Pending
+                             {% endif %}
+                           </td>
                        </tr>
                        {% endfor %}
                   </table>
