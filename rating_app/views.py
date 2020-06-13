@@ -302,22 +302,55 @@ def overall_statistics(request):
     roll=str(request.session['roll'])
     if roll=='coursefeedback@nitc.ac.in':
         request.session.set_expiry(14400)
-        num1=0
+        num1=0 #Total no. of evaluations
         for a in rating_table.objects.all():
             num1=num1+a.count
-        num2=0
+        num2=0 #Total no. of students participated
         for b in credited_courses_table.objects.values('roll_no').distinct().exclude(feedback_status=False):
             num2=num2+1
-        num3=0
+        num3=0 #Total no. of teachers rated at least once
         for c in rating_table.objects.values('faculty_name').distinct().exclude(count=0):
             num3=num3+1
-        num4=0
+        num4=0 #Total no. of courses rated at least once
         for d in rating_table.objects.values('course_name').distinct().exclude(count=0):
             num4=num4+1
-        num5=0
+        num5=0 #Pending evaluations
         for e in credited_courses_table.objects.filter(feedback_status=False):
             num5=num5+1
-        return render(request,'overall_statistics.html',{'num1':num1,'num2':num2,'num3':num3,'num4':num4,'num5':num5})
+        num6=0 #Pending courses
+        for e in credited_courses_table.objects.distinct('course_name','faculty_name').filter(feedback_status=False):
+            num6=num6+1
+        num7=0 #Pending students
+        for e in credited_courses_table.objects.distinct('roll_no').filter(feedback_status=False):
+            num7=num7+1
+
+        q1=q2=q3=q4=q5=q6=q7=count=0 #Average score for each question
+        for a in rating_table.objects.exclude(count=0):
+            q1=q1+a.question_1
+            q2=q2+a.question_2
+            q3=q3+a.question_3
+            q4=q4+a.question_4
+            q5=q5+a.question_5
+            q6=q6+a.question_6
+            q7=q7+a.question_7
+            count=count+a.count
+
+        count=count*5
+        q1 = (q1 /(count))*100
+        q1 = float("{:.2f}".format(round(q1, 2)))
+        q2 = (q2 /(count))*100
+        q2 = float("{:.2f}".format(round(q2, 2)))
+        q3 = (q3 /(count))*100
+        q3 = float("{:.2f}".format(round(q3, 2)))
+        q4 = (q4 /(count))*100
+        q4 = float("{:.2f}".format(round(q4, 2)))
+        q5 = (q5 /(count))*100
+        q5 = float("{:.2f}".format(round(q5, 2)))
+        q6 = (q6 /(count))*100
+        q6 = float("{:.2f}".format(round(q6, 2)))
+        q7 = (q7 /(count))*100
+        q7 = float("{:.2f}".format(round(q7, 2)))
+        return render(request,'overall_statistics.html',{'num1':num1,'num2':num2,'num3':num3,'num4':num4,'num5':num5,'num6':num6,'num7':num7,'q1':q1,'q2':q2,'q3':q3,'q4':q4,'q5':q5,'q6':q6,'q7':q7,'count':count})
     else:
         return render(request,'error.html',{'text':'You are not authenticated to access this page.' })
 
