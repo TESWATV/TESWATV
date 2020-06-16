@@ -19,6 +19,7 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <!--<link href="css/styles2.css" rel="stylesheet" /> -->
         <link href="{% static 'css/styles2.css' %}" rel='stylesheet'>
+
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -34,8 +35,8 @@
                 </div>
             </div>
         </nav>
-        <!-- Masthead-->
-        <header class="masthead">
+        <br><br>
+        <div class="jumbotron bg-white">
             <div class="container d-flex h-100 align-items-center">
                 <div class="text-left">
                   <h3><u>Overall Statistics</u></h3><br>
@@ -55,9 +56,57 @@
                   The instructor's class stimulates interest and insight into the subject : {{ q5 }} %<br>
                   The instructor is regular and punctual in academic activities like tutorials/assignments/tests/projects/laboratory exercises : {{ q6 }} %<br>
                   The course plan provides sufficient information on the objectives and contents of the course, as well as the evaluation policy : {{ q7 }} %<br>
+                  <br>
+                  NITC Average Score : {{ num8 }} %<br>
+                  <br>
+                  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+                  <div class="chart-container" style="position: relative; height:30vh; width:30vw">
+                  <canvas id="myChart" width="400" height="400"></canvas>
+                  </div>
+                  <script>
+                  var ctx = document.getElementById('myChart').getContext('2d');
+                  var myChart = new Chart(ctx, {
+                      type: 'bar',
+                      data: {
+                          labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7'],
+                          datasets: [{
+                              label: '% Score',
+                              data: [{{ q1 }}, {{ q2 }}, {{ q3 }}, {{ q4 }}, {{ q5 }}, {{ q6 }}, {{ q7}} ],
+                              backgroundColor: [
+                                  'rgba(255, 99, 132, 0.8)',
+                                  'rgba(54, 162, 235, 0.8)',
+                                  'rgba(255, 206, 86, 0.8)',
+                                  'rgba(75, 192, 192, 0.8)',
+                                  'rgba(153, 102, 255, 0.8)',
+                                  'rgba(255, 159, 64, 0.8)',
+                                  'rgba(115, 242, 90, 0.8)',
+                              ],
+                              borderColor: [
+                                  'rgba(255, 99, 132, 1)',
+                                  'rgba(54, 162, 235, 1)',
+                                  'rgba(255, 206, 86, 1)',
+                                  'rgba(75, 192, 192, 1)',
+                                  'rgba(153, 102, 255, 1)',
+                                  'rgba(255, 159, 64, 1)',
+                                  'rgba(92, 245, 61, 1)',
+                              ],
+                              borderWidth: 1
+                          }]
+                      },
+                      options: {
+                          scales: {
+                              yAxes: [{
+                                  ticks: {
+                                      beginAtZero: true
+                                  }
+                              }]
+                          }
+                      }
+                  });
+                  </script>
                 </div>
             </div>
-        </header>
+        </div>
 
         <!-- Projects-->
         <!-- Bootstrap core JS-->
@@ -67,5 +116,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <!-- Core theme JS-->
         <script src="{% static 'js/scripts2.js' %}"></script>
+        <!-- chart.js -->
     </body>
 </html>

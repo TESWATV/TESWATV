@@ -146,6 +146,7 @@ def evaluation_progress(request):
             for i in range(0, len(list_result)):
                 if list_result[i] not in list_result[i+1:]:
                     b.append(list_result[i])
+
             return render(request,template,{'form':form,'abcd':b})
         else:
             form=forms.progress(request.POST)
@@ -162,7 +163,8 @@ def evaluation_progress(request):
                     statusname = 'Pending'
 
                 if credited_courses_table.objects.filter(feedback_status=status,roll_no__endswith=department).exists() :
-                    q1 =var1=credited_courses_table.objects.values('roll_no','feedback_status').order_by('roll_no','feedback_status').distinct('roll_no','feedback_status')
+                    q1=credited_courses_table.objects.filter(roll_no__endswith=department).values('roll_no','feedback_status').order_by('roll_no','feedback_status').distinct('roll_no','feedback_status')
+
                     list_result1 = [entry for entry in q1]
                     for list in list_result1:
                         list['roll_no']=list['roll_no'].upper()
@@ -324,6 +326,8 @@ def overall_statistics(request):
         for e in credited_courses_table.objects.distinct('roll_no').filter(feedback_status=False):
             num7=num7+1
 
+        num8=0 #NITC Average Score
+
         q1=q2=q3=q4=q5=q6=q7=count=0 #Average score for each question
         for a in rating_table.objects.exclude(count=0):
             q1=q1+a.question_1
@@ -337,20 +341,25 @@ def overall_statistics(request):
 
         count=count*5
         q1 = (q1 /(count))*100
-        q1 = float("{:.2f}".format(round(q1, 2)))
         q2 = (q2 /(count))*100
-        q2 = float("{:.2f}".format(round(q2, 2)))
         q3 = (q3 /(count))*100
-        q3 = float("{:.2f}".format(round(q3, 2)))
         q4 = (q4 /(count))*100
-        q4 = float("{:.2f}".format(round(q4, 2)))
         q5 = (q5 /(count))*100
-        q5 = float("{:.2f}".format(round(q5, 2)))
         q6 = (q6 /(count))*100
-        q6 = float("{:.2f}".format(round(q6, 2)))
         q7 = (q7 /(count))*100
+        num8 = num8+q1+q2+q3+q4+q5+q6+q7
+        num8 = num8 / 7
+        q1 = float("{:.2f}".format(round(q1, 2)))
+        q2 = float("{:.2f}".format(round(q2, 2)))
+        q3 = float("{:.2f}".format(round(q3, 2)))
+        q4 = float("{:.2f}".format(round(q4, 2)))
+        q5 = float("{:.2f}".format(round(q5, 2)))
+        q6 = float("{:.2f}".format(round(q6, 2)))
         q7 = float("{:.2f}".format(round(q7, 2)))
-        return render(request,'overall_statistics.html',{'num1':num1,'num2':num2,'num3':num3,'num4':num4,'num5':num5,'num6':num6,'num7':num7,'q1':q1,'q2':q2,'q3':q3,'q4':q4,'q5':q5,'q6':q6,'q7':q7,'count':count})
+        num8 = float("{:.2f}".format(round(num8, 2)))
+
+
+        return render(request,'overall_statistics.html',{'num1':num1,'num2':num2,'num3':num3,'num4':num4,'num5':num5,'num6':num6,'num7':num7,'num8':num8,'q1':q1,'q2':q2,'q3':q3,'q4':q4,'q5':q5,'q6':q6,'q7':q7,'count':count})
     else:
         return render(request,'error.html',{'text':'You are not authenticated to access this page.' })
 

@@ -21,20 +21,29 @@
         <link href="{% static 'css/styles2.css' %}" rel='stylesheet'>
         <style>
 
+        table.table2
+        {
+          border-collapse: collapse;
+          width:50%;
+          margin-left:auto;
+          margin-right:auto;
+        }
         table
         {
           border-collapse: collapse;
-          width:400px
+          width:90%;
+          margin-left:auto;
+          margin-right:auto;
         }
         th
         {
           border: 1px solid #000000;
-          height: 100%
+          height: 100%;
         }
         td
         {
           border: 1px solid #000000;
-          height: 100%
+          height: 100%;
         }
         </style>
     </head>
@@ -65,7 +74,7 @@
                   <br>
                   <form action = "" method="post" >
                     {% csrf_token %}
-                    <table>
+                    <table class="table2">
                       {{ form.as_table }}
                     </table>
                     <br>
@@ -78,7 +87,7 @@
                        <tr>
                           <th>Faculty name</th>
                           <th>Course name</th>
-                          <th>Avearge Score</th>
+                          <th>Avearge Score (%)</th>
                        </tr>
                        {% for a in abcd2 %}
                          <tr>
@@ -91,7 +100,7 @@
                                     <input type="hidden" name="fname" value="{{ a.faculty_name }}">
                                     <input type="hidden" name="cname" value="{{ a.course_name }}">
                                     <button type="submit" name="submit_param" value="submit_value" class="link-button">
-                                      {{ a.average }} %
+                                      {{ a.average }}
                                     </button>
                                   </form>
                               </td>
@@ -105,7 +114,7 @@
                          <tr>
                             <th>Faculty name</th>
                             <th>Course name</th>
-                            <th>Avearge Score</th>
+                            <th>Avearge Score (%)</th>
                          </tr>
                             {% for a in abcd2 %}
                               <tr>
@@ -118,7 +127,7 @@
                                          <input type="hidden" name="fname" value="{{ a.faculty_name }}">
                                          <input type="hidden" name="cname" value="{{ a.course_name }}">
                                          <button type="submit" name="submit_param" value="submit_value" class="link-button">
-                                           {{ a.average }} %
+                                           {{ a.average }}
                                          </button>
                                        </form>
                                    </td>
