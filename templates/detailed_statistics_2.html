@@ -54,7 +54,60 @@
                   The course plan provides sufficient information on the objectives and contents of the course, as well as the evaluation policy : {{ abcd.question_7 }} %<br>
                   <br>
                   Average score : {{ avg }} %<br>
+                  NITC average score : {{ num8 }}
                   <br>
+                  <br>
+                  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+                  <div class="chart-container" style="position: relative; height:30vh; width:30vw">
+                  <canvas id="myChart2" width="400" height="400"></canvas>
+                  </div>
+                  <script>
+                  var ctx = document.getElementById('myChart2').getContext('2d');
+                  var myChart = new Chart(ctx, {
+                      type: 'bar',
+                      data: {
+                          labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7'],
+                          datasets: [{
+                              label: '% Score',
+                              data: [{{ abcd.question_1 }}, {{ abcd.question_2 }}, {{ abcd.question_3 }}, {{ abcd.question_4 }}, {{ abcd.question_5 }}, {{ abcd.question_6 }}, {{ abcd.question_7}} ],
+                              backgroundColor: [
+                                  'rgba(255, 99, 132, 0.8)',
+                                  'rgba(54, 162, 235, 0.8)',
+                                  'rgba(255, 206, 86, 0.8)',
+                                  'rgba(75, 192, 192, 0.8)',
+                                  'rgba(153, 102, 255, 0.8)',
+                                  'rgba(255, 159, 64, 0.8)',
+                                  'rgba(115, 242, 90, 0.8)',
+                              ],
+                              borderColor: [
+                                  'rgba(255, 99, 132, 1)',
+                                  'rgba(54, 162, 235, 1)',
+                                  'rgba(255, 206, 86, 1)',
+                                  'rgba(75, 192, 192, 1)',
+                                  'rgba(153, 102, 255, 1)',
+                                  'rgba(255, 159, 64, 1)',
+                                  'rgba(92, 245, 61, 1)',
+                              ],
+                              borderWidth: 1
+                          },
+                          {
+                            label: 'NITC Average',
+                            data: [{{ q1 }}, {{ q2 }}, {{ q3 }}, {{ q4 }}, {{ q5 }}, {{ q6 }}, {{ q7}}],
+                            type: 'line'
+                          }
+                        ]
+                      },
+                      options: {
+                          scales: {
+                              yAxes: [{
+                                  ticks: {
+                                      beginAtZero: true
+                                  }
+                              }]
+                          }
+                      }
+                  });
+                  </script>
                 </div>
             </div>
         </header>

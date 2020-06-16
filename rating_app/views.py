@@ -289,10 +289,42 @@ def detailed_statistics_2(request) :
             var2.question_7=(var2.question_7 /(5*var2.count))*100
             var2.question_7 = float("{:.2f}".format(round(var2.question_7, 2)))
 
+        num8=0 #NITC Average Score
+
+        q1=q2=q3=q4=q5=q6=q7=count=0 #Average score for each question
+        for a in rating_table.objects.exclude(count=0):
+            q1=q1+a.question_1
+            q2=q2+a.question_2
+            q3=q3+a.question_3
+            q4=q4+a.question_4
+            q5=q5+a.question_5
+            q6=q6+a.question_6
+            q7=q7+a.question_7
+            count=count+a.count
+
+        count=count*5
+        q1 = (q1 /(count))*100
+        q2 = (q2 /(count))*100
+        q3 = (q3 /(count))*100
+        q4 = (q4 /(count))*100
+        q5 = (q5 /(count))*100
+        q6 = (q6 /(count))*100
+        q7 = (q7 /(count))*100
+        num8 = num8+q1+q2+q3+q4+q5+q6+q7
+        num8 = num8 / 7
+        q1 = float("{:.2f}".format(round(q1, 2)))
+        q2 = float("{:.2f}".format(round(q2, 2)))
+        q3 = float("{:.2f}".format(round(q3, 2)))
+        q4 = float("{:.2f}".format(round(q4, 2)))
+        q5 = float("{:.2f}".format(round(q5, 2)))
+        q6 = float("{:.2f}".format(round(q6, 2)))
+        q7 = float("{:.2f}".format(round(q7, 2)))
+        num8 = float("{:.2f}".format(round(num8, 2)))
+
         template="detailed_statistics_2.html"
         data=credited_courses_table.objects.filter(faculty_name=fname,course_name=cname,feedback_status=False)
         count2=len(data)
-        return render(request,template,{'avg':var1,'abcd':var2, 'fname':fname,'cname':cname,'count2':count2})
+        return render(request,template,{'avg':var1,'abcd':var2, 'fname':fname,'cname':cname,'count2':count2,'num8':num8,'q1':q1,'q2':q2,'q3':q3,'q4':q4,'q5':q5,'q6':q6,'q7':q7})
     else:
         return render(request,'error.html',{'text':'You are not authenticated to access this page.' })
 

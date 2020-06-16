@@ -48,6 +48,115 @@
                   Pending courses : {{ num6 }}<br>
                   Pending students : {{ num7 }}<br>
                   <br>
+                </div>
+              </div>
+            </div>
+<div class="container d-flex flex column justify-content-center align-items-center">
+  No. of evaluations:
+                  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+                  <div class="chart-container" style="position: relative; height:20vh; width:20vw">
+                  <canvas id="myChart1" width="2vh" height="2vw"></canvas>
+                  </div>
+                  <script>
+                  var ctx = document.getElementById('myChart1').getContext('2d');
+                  var myChart = new Chart(ctx, {
+                      type: 'doughnut',
+                      data: {
+                          labels: ['Completed', 'Pending'],
+                          datasets: [{
+                              label: 'No. of evaluations',
+                              data: [{{num1}},{{num5}} ],
+                              backgroundColor: [
+                                  'rgba(255, 99, 132, 0.8)',
+                                  'rgba(54, 162, 235, 0.8)',
+                              ],
+                              borderColor: [
+                                  'rgba(255, 99, 132, 1)',
+                                  'rgba(54, 162, 235, 1)',
+                              ],
+                              borderWidth: 1
+                          }]
+                      },
+                      options: {
+                        cutoutPercentage : 50,
+                        animation: {
+                          animateScale : true
+                        }
+                      }
+                  });
+                  </script>
+  No. of students:
+                  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+                  <div class="chart-container" style="position: relative; height:20vh; width:20vw">
+                  <canvas id="myChart3" width="2vh" height="2vw"></canvas>
+                  </div>
+                  <script>
+                  var ctx = document.getElementById('myChart3').getContext('2d');
+                  var myChart = new Chart(ctx, {
+                      type: 'doughnut',
+                      data: {
+                          labels: ['Completed', 'Pending',],
+                          datasets: [{
+                              label: 'No. of students',
+                              data: [{{num2}},{{num7}} ],
+                              backgroundColor: [
+                                  'rgba(255, 206, 86, 0.8)',
+                                  'rgba(153, 102, 255, 0.8)',
+
+                              ],
+                              borderColor: [
+                                  'rgba(255, 206, 86, 1)',
+                                  'rgba(153, 102, 255, 1)',
+                              ],
+                              borderWidth: 1
+                          }]
+                      },
+                      options: {
+                        cutoutPercentage : 50,
+                        animation: {
+                          animateScale : true
+                        }
+                      }
+                  });
+                  </script>
+No. of courses:
+                  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+                  <div class="chart-container" style="position: relative; height:20vh; width:20vw">
+                  <canvas id="myChart4" width="2vh" height="2vw"></canvas>
+                  </div>
+                  <script>
+                  var ctx = document.getElementById('myChart4').getContext('2d');
+                  var myChart = new Chart(ctx, {
+                      type: 'doughnut',
+                      data: {
+                          labels: ['Completed', 'Pending'],
+                          datasets: [{
+                              label: 'No. of courses',
+                              data: [{{num4}},{{num6}} ],
+                              backgroundColor: [
+                                  'rgba(255, 159, 64, 0.8)',
+                                  'rgba(115, 242, 90, 0.8)',
+                              ],
+                              borderColor: [
+                                  'rgba(255, 159, 64, 1)',
+                                  'rgba(92, 245, 61, 1)',
+                              ],
+                              borderWidth: 1
+                          }]
+                      },
+                      options: {
+                        cutoutPercentage : 50,
+                        animation: {
+                          animateScale : true
+                        }
+                      }
+                  });
+                  </script>
+</div>
+                  <br><br><br><br><br><br><br><br>
+<div class="jumbotron bg-white">
+    <div class="container d-flex h-100 align-items-center">
+        <div class="text-left">
                   <h3><u>Average score of each question</u></h3><br>
                   The instructor comes well prepared : {{q1}} %<br>
                   The instructor utilizes class time effectively : {{ q2 }} %<br>
@@ -61,38 +170,41 @@
                   <br>
                   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
                   <div class="chart-container" style="position: relative; height:30vh; width:30vw">
-                  <canvas id="myChart" width="400" height="400"></canvas>
+                  <canvas id="myChart2" width="400" height="400"></canvas>
                   </div>
                   <script>
-                  var ctx = document.getElementById('myChart').getContext('2d');
+                  var ctx = document.getElementById('myChart2').getContext('2d');
                   var myChart = new Chart(ctx, {
                       type: 'bar',
                       data: {
-                          labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7'],
-                          datasets: [{
-                              label: '% Score',
-                              data: [{{ q1 }}, {{ q2 }}, {{ q3 }}, {{ q4 }}, {{ q5 }}, {{ q6 }}, {{ q7}} ],
-                              backgroundColor: [
-                                  'rgba(255, 99, 132, 0.8)',
-                                  'rgba(54, 162, 235, 0.8)',
-                                  'rgba(255, 206, 86, 0.8)',
-                                  'rgba(75, 192, 192, 0.8)',
-                                  'rgba(153, 102, 255, 0.8)',
-                                  'rgba(255, 159, 64, 0.8)',
-                                  'rgba(115, 242, 90, 0.8)',
-                              ],
-                              borderColor: [
-                                  'rgba(255, 99, 132, 1)',
-                                  'rgba(54, 162, 235, 1)',
-                                  'rgba(255, 206, 86, 1)',
-                                  'rgba(75, 192, 192, 1)',
-                                  'rgba(153, 102, 255, 1)',
-                                  'rgba(255, 159, 64, 1)',
-                                  'rgba(92, 245, 61, 1)',
-                              ],
-                              borderWidth: 1
-                          }]
-                      },
+                              labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7'],
+                              datasets: [
+                                          {
+                                            label: '% Score',
+                                            data: [{{ q1 }}, {{ q2 }}, {{ q3 }}, {{ q4 }}, {{ q5 }}, {{ q6 }}, {{ q7}} ],
+                                            backgroundColor: [
+                                                              'rgba(255, 99, 132, 0.8)',
+                                                              'rgba(54, 162, 235, 0.8)',
+                                                              'rgba(255, 206, 86, 0.8)',
+                                                              'rgba(75, 192, 192, 0.8)',
+                                                              'rgba(153, 102, 255, 0.8)',
+                                                              'rgba(255, 159, 64, 0.8)',
+                                                              'rgba(115, 242, 90, 0.8)',
+                                                            ],
+                                            borderColor: [
+                                                          'rgba(255, 99, 132, 1)',
+                                                          'rgba(54, 162, 235, 1)',
+                                                          'rgba(255, 206, 86, 1)',
+                                                          'rgba(75, 192, 192, 1)',
+                                                          'rgba(153, 102, 255, 1)',
+                                                          'rgba(255, 159, 64, 1)',
+                                                          'rgba(92, 245, 61, 1)',
+                                                        ],
+                                            borderWidth: 1
+                                          },
+
+                                        ]
+                            },
                       options: {
                           scales: {
                               yAxes: [{
