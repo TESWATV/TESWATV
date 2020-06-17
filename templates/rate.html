@@ -83,7 +83,9 @@
      window.history.forward();
       function noBack() { window.history.forward(); }
     </script>
+
 </head>
+
 <body onload="noBack();" onpageshow="if (event.persisted) noBack();" onunload="">  -->
 
 
@@ -115,9 +117,12 @@
   <h1 class="display-5 text-uppercase">Courses</h1>
   <!--
   <svg style="font-size: 4em;overflow: visible;">
+
   <text>
+
     <tspan>SVG</tspan>
 </text>
+
 </svg> -->
 </div>
 </div>
@@ -176,6 +181,7 @@
           {% csrf_token %}
           <input type="hidden" value="{{ l.cname }}" name="cname">
           <input type="hidden" value="{{ l.fname }}" name="fname">
+          <input type="hidden" value="{{ l.tid }}" name="tid">
       <!--    <font size="+2">  -->
       <!--    <div style = "font-family:helvetica,arial,serif;">   -->
           <div class="lead">
