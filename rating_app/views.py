@@ -6,7 +6,8 @@ from . import forms
 from django.contrib.auth import logout
 
 class details:
-    def __init__(self,cname,fname,display,status,id):
+    def __init__(self,tid,cname,fname,display,status,id):
+        self.tid = tid
         self.cname = cname
         self.fname = fname
         self.display = display
@@ -18,7 +19,9 @@ def home(request):
     request.session.set_test_cookie()
     if request.session.test_cookie_worked():
         request.session.delete_test_cookie()
-        return render(request,'home.html')
+        html = render(request,'home.html')
+        html.delete_cookie('courses')
+        return html
     else:
         return render(request,'error.html',{'text':'Your browser does not accept cookies. Cookies are necessary for this website to function properly.'} )
 
@@ -43,7 +46,19 @@ def success(request):
             return render(request,'error.html',{'text':"You don't seem to have registered for any courses. Contact your faculty advisor." } )
         request.session['roll']=roll
         request.session.set_expiry(1200)
-        return redirect('/rate/')
+        html = redirect('/rate/')
+        course_list = []
+        for o in obj:
+            dic = {}
+            dic['tid'] = o.id
+            dic['faculty_name'] = o.faculty_name
+            dic['course_name'] = o.course_name
+            dic['feedback_status'] = o.feedback_status
+            course_list.append(dic)
+
+        html.set_cookie('courses',course_list)
+        
+        return html
 
 def rate(request):
     if not request.user.is_authenticated:
@@ -53,32 +68,56 @@ def rate(request):
     request.session.set_expiry(1200)
     roll=str(request.session['roll'])
     if request.method=='GET':
-        obj=credited_courses_table.objects.filter(roll_no=roll)
+        courses_list = eval(request.COOKIES['courses'])
+
         completed = 1
         id = 1
         listt = []
-        for o in obj:
-            cname = o.course_name
-            fname = o.faculty_name
+        for o in courses_list:
+            tid = o['tid']
+            cname = o['course_name']
+            fname = o['faculty_name']
             display = cname + ' | PROF. ' + fname
-            status = o.feedback_status
-            listt.append(details(cname,fname,display,status,str(id)))
+            status = o['feedback_status']
+            listt.append(details(tid,cname,fname,display,status,str(id)))
             id = id + 1
             if status == 0:
                 completed =0
 
         return render(request,'rate.html',{'listt':listt, 'completed':completed } )
+
     else:
-        cname = request.POST['cname']
-        fname = request.POST['fname']
-        obj=credited_courses_table.objects.filter(roll_no = roll, course_name = cname, faculty_name = fname)
-        obj = obj[0]
+        tid = request.POST['tid']
+        obj=credited_courses_table.objects.get(pk=tid)
+        cname,fname = obj.course_name, obj.faculty_name
+
+        if not obj.roll_no==roll:
+            logout(request)
+            html = render(request,'error.html',{'text':'Cookie manipulation detected. You have been logged out.'})
+            html.delete_cookie('courses')
+            return html
+
         if obj.feedback_status == 1:
             return render(request,'double_rate.html')
+
+        courses_list = eval(request.COOKIES['courses'])
+        d = 0
+        for dic in courses_list:
+            if dic['tid'] == int(tid):
+                dic['feedback_status'] = 1
+                d = 1
+        if d==0:
+
+            logout(request)
+            html = render(request,'error.html',{'text':'Cookie manipulation detected. You have been logged out.'})
+            html.delete_cookie('courses')
+            return html
+
         obj.feedback_status = 1
         obj.save()
-        obj = rating_table.objects.filter(course_name = cname, faculty_name = fname)
-        obj = obj[0]
+
+
+        obj = rating_table.objects.get(course_name = cname, faculty_name = fname)
         rep = request.POST
         obj.question_1 = obj.question_1 + int(rep['star1'])
         obj.question_2 = obj.question_2 + int(rep['star2'])
@@ -90,20 +129,23 @@ def rate(request):
         obj.count = obj.count + 1
         obj.save()
 
-        obj=credited_courses_table.objects.filter(roll_no=roll)
+
         completed = 1
         id = 1
         listt = []
-        for o in obj:
-            cname = o.course_name
-            fname = o.faculty_name
+        for o in courses_list:
+            tid = o['tid']
+            cname = o['course_name']
+            fname = o['faculty_name']
             display = cname + ' | PROF. ' + fname
-            status = o.feedback_status
-            listt.append(details(cname,fname,display,status,str(id)))
+            status = o['feedback_status']
+            listt.append(details(tid,cname,fname,display,status,str(id)))
             id = id + 1
             if status == 0:
                 completed =0
-        return render(request,'rate.html',{'listt':listt, 'completed':completed } )
+        html = render(request,'rate.html',{'listt':listt, 'completed':completed } )
+        html.set_cookie('courses',courses_list)
+        return html
 
 
 def admin(request):
