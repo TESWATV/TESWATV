@@ -57,7 +57,7 @@ def success(request):
             course_list.append(dic)
 
         html.set_cookie('courses',course_list)
-        
+
         return html
 
 def rate(request):
@@ -196,6 +196,10 @@ def evaluation_progress(request):
             if form.is_valid():
                 status=form.cleaned_data['Status']
                 department=form.cleaned_data['Roll_no_ends_with']
+                #return HttpResponse(department)
+                #if department == None :
+                #    department = ""
+
                 department=department.lower()
                 status2=status
                 status=int(status)

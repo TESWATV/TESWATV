@@ -8,8 +8,8 @@ status_choices=(
 
 class progress(forms.Form):
     Status = forms.ChoiceField(choices=status_choices)
-    Roll_no_ends_with = forms.CharField()
+    Roll_no_ends_with = forms.CharField(required=False)
 
 class details(forms.Form):
-    faculty_name = forms.CharField()
-    course_name = forms.CharField()
+    faculty_name = forms.CharField(required=False)
+    course_name = forms.CharField(required=False)
