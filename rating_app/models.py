@@ -2,8 +2,8 @@ from django.db import models
 
 class credited_courses_table(models.Model):
     roll_no = models.CharField(max_length = 15)
-    faculty_name = models.CharField(max_length = 50)
-    course_name = models.CharField(max_length = 50)
+    faculty_name = models.CharField(max_length = 150)
+    course_name = models.CharField(max_length = 150)
     feedback_status = models.BooleanField()
 
     class Meta:
@@ -11,8 +11,8 @@ class credited_courses_table(models.Model):
         db_table = 'credited_courses_table'
 
 class rating_table(models.Model):
-    faculty_name = models.CharField(max_length = 50)
-    course_name = models.CharField(max_length = 50)
+    faculty_name = models.CharField(max_length = 150)
+    course_name = models.CharField(max_length = 150)
     question_1 = models.IntegerField()
     question_2 = models.IntegerField()
     question_3 = models.IntegerField()

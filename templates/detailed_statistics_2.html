@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      {% load static %}
+      {% load socialaccount %}
+      {% providers_media_js %}
+
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Admin</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'assets/img/favicon.ico' %}"/>
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <!--<link href="css/styles2.css" rel="stylesheet" /> -->
+        <link href="{% static 'css/styles2.css' %}" rel='stylesheet'>
+    </head>
+    <body id="page-top">
+        <!-- Navigation-->
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+            <div class="container">
+                <a class="text-black-100 navbar-brand text-uppercase js-scroll-trigger" href="/admin/">Home</a>
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">Menu<i class="fas fa-bars"></i></button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item"><a class="text-black-50 nav-link text-uppercase js-scroll-trigger" href="/database/">Database Functions</a></li>
+                        <li class="nav-item"><a class="text-black-50 nav-link text-uppercase js-scroll-trigger" href="{% url 'home' %}">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <!-- Masthead-->
+        <header class="masthead">
+            <div class="container d-flex h-100 align-items-center">
+                <div class="mx-auto text-left">
+                  <br>
+
+                  Faculty Name : Prof. {{ abcd.faculty_name }}<br>
+                  Course Name : {{ abcd.course_name }}<br>
+                  No. of students who gave feedback : {{ abcd.count }}<br>
+                  No. of students who haven't given feedback : {{ count2 }}<br>
+                  <br>
+                  The instructor comes well prepared : {{abcd.question_1}} %<br>
+                  The instructor utilizes class time effectively : {{ abcd.question_2 }} %<br>
+                  The instructor presents the course material with clarity that facilitates learning and understanding : {{ abcd.question_3 }} %<br>
+                  The instructor's teaching method is effective : {{ abcd.question_4 }} %<br>
+                  The instructor's class stimulates interest and insight into the subject : {{ abcd.question_5 }} %<br>
+                  The instructor is regular and punctual in academic activities like tutorials/assignments/tests/projects/laboratory exercises : {{ abcd.question_6 }} %<br>
+                  The course plan provides sufficient information on the objectives and contents of the course, as well as the evaluation policy : {{ abcd.question_7 }} %<br>
+                  <br>
+                  Average score : {{ avg }} %<br>
+                  NITC average score : {{ num8 }}
+                  <br>
+                  <br>
+                  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+                  <div class="chart-container" style="position: relative; height:30vh; width:30vw">
+                  <canvas id="myChart2" width="400" height="400"></canvas>
+                  </div>
+                  <script>
+                  var ctx = document.getElementById('myChart2').getContext('2d');
+                  var myChart = new Chart(ctx, {
+                      type: 'bar',
+                      data: {
+                          labels: ['Q1', 'Q2', 'Q3', 'Q4', 'Q5', 'Q6', 'Q7'],
+                          datasets: [{
+                              label: '% Score',
+                              data: [{{ abcd.question_1 }}, {{ abcd.question_2 }}, {{ abcd.question_3 }}, {{ abcd.question_4 }}, {{ abcd.question_5 }}, {{ abcd.question_6 }}, {{ abcd.question_7}} ],
+                              backgroundColor: [
+                                  'rgba(255, 99, 132, 0.8)',
+                                  'rgba(54, 162, 235, 0.8)',
+                                  'rgba(255, 206, 86, 0.8)',
+                                  'rgba(75, 192, 192, 0.8)',
+                                  'rgba(153, 102, 255, 0.8)',
+                                  'rgba(255, 159, 64, 0.8)',
+                                  'rgba(115, 242, 90, 0.8)',
+                              ],
+                              borderColor: [
+                                  'rgba(255, 99, 132, 1)',
+                                  'rgba(54, 162, 235, 1)',
+                                  'rgba(255, 206, 86, 1)',
+                                  'rgba(75, 192, 192, 1)',
+                                  'rgba(153, 102, 255, 1)',
+                                  'rgba(255, 159, 64, 1)',
+                                  'rgba(92, 245, 61, 1)',
+                              ],
+                              borderWidth: 1
+                          },
+                          {
+                            label: 'NITC Average',
+                            data: [{{ q1 }}, {{ q2 }}, {{ q3 }}, {{ q4 }}, {{ q5 }}, {{ q6 }}, {{ q7}}],
+                            type: 'line'
+                          }
+                        ]
+                      },
+                      options: {
+                          scales: {
+                              yAxes: [{
+                                  ticks: {
+                                      beginAtZero: true
+                                  }
+                              }]
+                          }
+                      }
+                  });
+                  </script>
+                </div>
+            </div>
+        </header>
+
+        <!-- Projects-->
+        <!-- Bootstrap core JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <!-- Third party plugin JS-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="{% static 'js/scripts2.js' %}"></script>
+    </body>
+</html>
